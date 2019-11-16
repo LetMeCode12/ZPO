@@ -3,14 +3,15 @@ package ProjektAPI.ProjektAPI.Entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Entity
 @Table(name="Patients")
-public class Patients {
+public class Patient {
 
 @Id
 @GeneratedValue
-private int id;
+private UUID id;
 
 @Column(name="Name")
     private String name;
@@ -21,21 +22,21 @@ private int id;
 @Column(name = "Date_of_birth")
     private Timestamp birth;
 
-    public Patients() {
+    public Patient() {
     }
 
-    public Patients(String name, String surrname, long pesel, Timestamp birth) {
+    public Patient(String name, String surrname, long pesel, Timestamp birth) {
         this.name = name;
         this.surrname = surrname;
         this.pesel = pesel;
         this.birth = birth;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

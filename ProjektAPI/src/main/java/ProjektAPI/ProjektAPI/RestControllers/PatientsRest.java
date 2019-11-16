@@ -2,7 +2,7 @@ package ProjektAPI.ProjektAPI.RestControllers;
 
 
 import ProjektAPI.ProjektAPI.Dao.PatientsDao;
-import ProjektAPI.ProjektAPI.Entity.Patients;
+import ProjektAPI.ProjektAPI.Entity.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +18,12 @@ public class PatientsRest {
     PatientsDao patientsDao;
 
     @GetMapping("/getAll")
-    private List<Patients> getAll (){
+    private List<Patient> getAll (){
         return patientsDao.findAll();
     }
 
     @GetMapping("/getByName/{name}/{surrname}")
-    private Patients getByNameSurrname(@PathVariable String name,@PathVariable String surrname){
+    private Patient getByNameSurrname(@PathVariable String name, @PathVariable String surrname){
         return patientsDao.findAll().stream()
                 .filter(n->n.getName().equals(name))
                 .filter(s->s.getSurrname().equals(surrname))
@@ -32,7 +32,7 @@ public class PatientsRest {
     }
 
     @PostMapping("/addPatient")
-    private void addPatient(@RequestBody Patients patients){
-        patientsDao.save(new Patients(patients.getName(),patients.getSurrname(),patients.getPesel(),patients.getBirth()));
+    private void addPatient(@RequestBody Patient patient){
+        patientsDao.save(new Patient(patient.getName(),patient.getSurrname(),patient.getPesel(),patient.getBirth()));
     }
 }

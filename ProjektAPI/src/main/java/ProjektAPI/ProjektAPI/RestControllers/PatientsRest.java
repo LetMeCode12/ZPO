@@ -33,6 +33,6 @@ public class PatientsRest {
 
     @PostMapping("/addPatient")
     private void addPatient(@RequestBody Patient patient){
-        patientsDao.save(new Patient(patient.getName(),patient.getSurrname(),patient.getPesel(),patient.getBirth()));
+        patientsDao.save(new Patient(patient.getName(),patient.getSurrname(),patient.getPesel(),patient.getBirth(),patient.getAddress()));
     }
 }

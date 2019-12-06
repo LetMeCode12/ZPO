@@ -21,15 +21,18 @@ private UUID id;
     private long pesel;
 @Column(name = "Date_of_birth")
     private Timestamp birth;
+@Column(name="Address")
+    private String address;
 
     public Patient() {
     }
 
-    public Patient(String name, String surrname, long pesel, Timestamp birth) {
+    public Patient(String name, String surrname, long pesel, Timestamp birth, String address) {
         this.name = name;
         this.surrname = surrname;
         this.pesel = pesel;
         this.birth = birth;
+        this.address=address;
     }
 
     public UUID getId() {
@@ -70,5 +73,13 @@ private UUID id;
 
     public void setBirth(Timestamp birth) {
         this.birth = birth;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

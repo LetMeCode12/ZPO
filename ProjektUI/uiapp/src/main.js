@@ -1,24 +1,27 @@
 import Vue from 'vue'
-import App from './App.vue'
-//import router from './router'
-import Login from "./containers/Login.vue" 
-import Test from "./containers/TestPage.vue" 
-//import Notfound from "./containers/NotFound.vue"
-import VueRouter from 'vue-router'
-//Vue.config.productionTip = false
+//import Login from "./containers/Login.vue" 
+//import Test from "./containers/TestPage.vue" 
+//import VueRouter from 'vue-router'
+//import {store} from './_store';
+import {router} from './_helpers';
+import App from '../src/App'
 
-Vue.use(VueRouter);
+import { configureFakeBackend } from './_helpers';
 
-const router = new VueRouter({
-  routes: [
-    {path: '/', component:Login},
-    {path: '/test', component:Test}
-  ],
-  mode: "history"
-})
+// const router = new VueRouter({
+//   routes: [
+//     {path: '/', component:Login},
+//     {path: '/test', component:Test}
+//   ],
+//   mode: "history"
+// })
+
+configureFakeBackend();
 
 new Vue({
+  el: '#app',
   router,
+  //store,
   render:h=>h(App)
 }).$mount("#app")
 

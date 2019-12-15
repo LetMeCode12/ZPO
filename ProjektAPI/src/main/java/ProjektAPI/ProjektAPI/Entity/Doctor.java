@@ -1,6 +1,8 @@
 package ProjektAPI.ProjektAPI.Entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,11 +19,20 @@ public class Doctor {
     private String surrname;
     @Column(name="Specialization")
     private String specialization;
+    @Column(name="Branch")
+    private UUID branchID;
 
-    public Doctor(String name, String surrname, String specialization) {
+
+    @Column(name="Patients")
+    @ManyToMany
+    private List<Patient> patients;
+
+    public Doctor(String name, String surrname, String specialization, UUID branchID) {
         this.name = name;
         this.surrname = surrname;
         this.specialization = specialization;
+        this.branchID=branchID;
+        this.patients=new ArrayList<>();
     }
 
     public Doctor() {
@@ -57,5 +68,21 @@ public class Doctor {
 
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
+    }
+
+    public UUID getBranchID() {
+        return branchID;
+    }
+
+    public void setBranchID(UUID branchID) {
+        this.branchID = branchID;
+    }
+
+    public List<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<Patient> patients) {
+        patients = patients;
     }
 }

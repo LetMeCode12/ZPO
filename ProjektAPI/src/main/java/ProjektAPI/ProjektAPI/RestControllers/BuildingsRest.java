@@ -1,9 +1,11 @@
 package ProjektAPI.ProjektAPI.RestControllers;
 
 
+import ProjektAPI.ProjektAPI.Dao.BedDao;
 import ProjektAPI.ProjektAPI.Dao.BranchDao;
 import ProjektAPI.ProjektAPI.Dao.BuildingsDao;
 import ProjektAPI.ProjektAPI.Dao.RoomDao;
+import ProjektAPI.ProjektAPI.Entity.Bed;
 import ProjektAPI.ProjektAPI.Entity.Branch;
 import ProjektAPI.ProjektAPI.Entity.Building;
 import ProjektAPI.ProjektAPI.Entity.Room;
@@ -25,6 +27,9 @@ public class BuildingsRest {
 
     @Autowired
     RoomDao roomDao;
+
+    @Autowired
+    BedDao bedDao;
 
 //    private List<Branch> getBranchByName(String Name){
 //        List<Branch> branches =  new ArrayList<>();
@@ -56,21 +61,33 @@ public class BuildingsRest {
     private void updateBranchAddRoom (@RequestBody Room room,@PathVariable String nameBd,@PathVariable Integer nrBd,@PathVariable String nameBr,@PathVariable Integer nrBr){
        Building bd = buildingsDao.findAll().stream().parallel().filter(e->e.getAddress().equals(nameBd)).filter(r->r.getNr_Budynku().equals(nrBd)).findFirst().orElse(null);
        Branch br = bd.getBranches().stream().parallel().filter(e->e.getBranch_Name().equals(nameBr)).filter(r->r.getNr_Branch()==nrBr).findFirst().orElse(null);
-        Room rm = new Room(room.getNr_Room(),room.getFree_Beds(),room.getBeds());
+        Room rm = new Room(room.getNr_Room());
        roomDao.save(rm);
        br.getRooms().add(rm);
        branchDao.save(br);
     }
 
-    @PutMapping("/addBranchtoBld/{buildingName}/{nameBranch}")
-    private void addBranchToBld(@PathVariable String buildingName,@PathVariable String nameBranch){
-
-       Building bd = buildingsDao.findAll().stream().parallel().filter(e->e.getAddress().equals(buildingName)).findFirst().orElse(null);
-       bd.getBranches().add(branchDao.findAll().stream().parallel().filter(e->e.getBranch_Name().equals(nameBranch)).findFirst().orElse(null));
-      // buildingsDao.delete(buildingsDao.findAll().stream().filter(e->e.getAddress().equals(buildingName)).findFirst().orElse(null));
-       buildingsDao.save(bd);
-
+    @PutMapping("/addBedToRoom/{nameBd}/{nrBd}/{nameBr}/{nrBr}/{nrRoom}")
+    private void updateRoom (@RequestBody Bed bed,@PathVariable String nameBd,@PathVariable Integer nrBd,@PathVariable String nameBr,@PathVariable Integer nrBr, @PathVariable Integer nrRoom ){
+        Building bd = buildingsDao.findAll().stream().parallel().filter(e->e.getAddress().equals(nameBd)).filter(r->r.getNr_Budynku().equals(nrBd)).findFirst().orElse(null);
+        Branch br = bd.getBranches().stream().parallel().filter(e->e.getBranch_Name().equals(nameBr)).filter(r->r.getNr_Branch()==nrBr).findFirst().orElse(null);
+        Room rm = br.getRooms().stream().parallel().filter(e->e.getNr_Room().equals(nrRoom)).findFirst().orElse(null);
+        Bed _bed = new Bed(bed.getNrBed(),bed.getIdPatient());
+        bedDao.save(_bed);
+        rm.getBeds().add(_bed);
+        roomDao.save(rm);
     }
+
+
+//    @PutMapping("/addBranchtoBld/{buildingName}/{nameBranch}")
+//    private void addBranchToBld(@PathVariable String buildingName,@PathVariable String nameBranch){
+//
+//       Building bd = buildingsDao.findAll().stream().parallel().filter(e->e.getAddress().equals(buildingName)).findFirst().orElse(null);
+//       bd.getBranches().add(branchDao.findAll().stream().parallel().filter(e->e.getBranch_Name().equals(nameBranch)).findFirst().orElse(null));
+//      // buildingsDao.delete(buildingsDao.findAll().stream().filter(e->e.getAddress().equals(buildingName)).findFirst().orElse(null));
+//       buildingsDao.save(bd);
+//
+//    }
 
     @GetMapping("/getAll")
     private List<Building> getAllBuilding(){

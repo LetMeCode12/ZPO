@@ -3,6 +3,8 @@ package ProjektAPI.ProjektAPI.Entity;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,16 +18,16 @@ public class Room {
     @Column(name="Nr_Room")
     private Integer nr_Room;
 
-    @Column(name = "Free_Beds")
-    private Integer free_Beds;
+//    @Column(name = "Free_Beds")
+//    private Integer free_Beds;
 
-    @Column(name = "All_Beds")
-    private Integer Beds;
+    @OneToMany
+    private List<Bed> Beds;
 
-    public Room(Integer nr_Room, Integer free_Beds, Integer beds) {
+    public Room(Integer nr_Room) {
         this.nr_Room = nr_Room;
-        this.free_Beds = free_Beds;
-        this.Beds = beds;
+       // this.free_Beds = free_Beds;
+        this.Beds = new ArrayList<>();
     }
 
     public Room() {
@@ -47,19 +49,26 @@ public class Room {
         this.nr_Room = nr_Room;
     }
 
-    public Integer getFree_Beds() {
-        return free_Beds;
-    }
-
-    public void setFree_Beds(Integer free_Beds) {
-        this.free_Beds = free_Beds;
-    }
-
-    public Integer getBeds() {
+    public List<Bed> getBeds() {
         return Beds;
     }
 
-    public void setBeds(Integer beds) {
-        this.Beds = beds;
+    public void setBeds(List<Bed> beds) {
+        Beds = beds;
     }
+    //    public Integer getFree_Beds() {
+//        return free_Beds;
+//    }
+//
+//    public void setFree_Beds(Integer free_Beds) {
+//        this.free_Beds = free_Beds;
+//    }
+
+//    public Integer getBeds() {
+//        return Beds;
+//    }
+//
+//    public void setBeds(Integer beds) {
+//        this.Beds = beds;
+//    }
 }

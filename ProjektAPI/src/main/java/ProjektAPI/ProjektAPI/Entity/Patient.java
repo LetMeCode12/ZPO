@@ -18,21 +18,29 @@ private UUID id;
 @Column(name="Surrname")
     private String surrname;
 @Column(name = "Pesel")
-    private long pesel;
+    private Integer pesel;
 @Column(name = "Date_of_birth")
     private Timestamp birth;
 @Column(name="Address")
     private String address;
-
+@Column(name = "Date_of_Admission")
+    private Timestamp dateOfAdmission;
+@Column(name = "DoctorID")
+    private UUID DoctorID;
+@Column(name = "BedID")
+    private UUID bedID;
     public Patient() {
     }
 
-    public Patient(String name, String surrname, long pesel, Timestamp birth, String address) {
+    public Patient(String name, String surrname, Integer pesel, Timestamp birth, String address, UUID DoctorID,UUID bedID) {
         this.name = name;
         this.surrname = surrname;
         this.pesel = pesel;
         this.birth = birth;
         this.address=address;
+        this.dateOfAdmission = new Timestamp(System.currentTimeMillis());
+        this.DoctorID = DoctorID;
+        this.bedID = bedID;
     }
 
     public UUID getId() {
@@ -59,11 +67,11 @@ private UUID id;
         this.surrname = surrname;
     }
 
-    public long getPesel() {
+    public Integer getPesel() {
         return pesel;
     }
 
-    public void setPesel(long pesel) {
+    public void setPesel(Integer pesel) {
         this.pesel = pesel;
     }
 
@@ -81,5 +89,29 @@ private UUID id;
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Timestamp getDateOfAdmission() {
+        return dateOfAdmission;
+    }
+
+    public void setDateOfAdmission(Timestamp dateOfAdmission) {
+        this.dateOfAdmission = dateOfAdmission;
+    }
+
+    public UUID getDoctorID() {
+        return DoctorID;
+    }
+
+    public void setDoctorID(UUID doctorID) {
+        DoctorID = doctorID;
+    }
+
+    public UUID getBedID() {
+        return bedID;
+    }
+
+    public void setBedID(UUID bedID) {
+        this.bedID = bedID;
     }
 }

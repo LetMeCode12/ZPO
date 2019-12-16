@@ -2,8 +2,10 @@ package ProjektAPI.ProjektAPI.RestControllers;
 
 
 import ProjektAPI.ProjektAPI.Dao.BedDao;
+import ProjektAPI.ProjektAPI.Dao.DoctorDao;
 import ProjektAPI.ProjektAPI.Dao.PatientsDao;
 import ProjektAPI.ProjektAPI.Entity.Bed;
+import ProjektAPI.ProjektAPI.Entity.Doctor;
 import ProjektAPI.ProjektAPI.Entity.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,9 @@ public class PatientsRest {
 
     @Autowired
     BedDao bedDao;
+
+    @Autowired
+    DoctorDao doctorDao;
 
     @GetMapping("/getAll")
     private List<Patient> getAll (){
@@ -57,7 +62,10 @@ public class PatientsRest {
         Patient patient = patientsDao.findAll().stream().parallel().filter(e->e.getId().equals(patientID)).findFirst().orElse(null);
         Bed bed = bedDao.findAll().stream().parallel().filter(e->e.getIdBed().equals(patient.getBedID())).findFirst().get();
         bed.setIdPatient(null);
+        Doctor doctor = doctorDao.findAll().stream().parallel().filter(e->e.getId().equals(patient.getDoctorID())).findFirst().get();
+        doctor.getPatients().remove(patient);
         bedDao.save(bed);
+        doctorDao.save(doctor);
         patientsDao.delete(patient);
     }
 }

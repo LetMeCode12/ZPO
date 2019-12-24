@@ -1,14 +1,14 @@
 <template>
-<form @submit.prevent="handleSubmit">
-<div id="main">
+<form>
+<div id="Login">
     <h1 id="napis">Logowanie</h1>
     <input id="loginInput" v-model="username" placeholder="Login"/>
     <br/>
     <input id="loginInput" v-model="password" placeholder="Hasło"/>
     <br/>
-    <button id="buttonLogin" v-on:click="log($password)" >Login</button>
-<!-- 
-    <router-link id="buttonLogin"  tag="button"> Login </router-link> -->
+    <button id="buttonLogin" @click="login" >Login</button>
+    <h1>{{account}}</h1>
+    <!-- <router-link   to='/homePage'> Home </router-link> -->
 </div>
 </form>
 </template>
@@ -23,28 +23,24 @@ export default {
         }
     },
     computed: {
-        loggingIn () {
-            return this.$store.state.authentication.status.loggingIn;
-        }
+       message(){
+            return this.$store.getters.message;
+       },
+       count(){
+           return this.$store.getters.counter;
+       },
+       account(){
+           return this.$store.getters.account;
+       }
     },
-    created () {
-        // reset login status
-        this.$store.dispatch('authentication/logout');
-    },
-    methods: {
-        log: (e)=>{
-           // console.log(e.currentTarget);
-            alert(e)
+    methods:{
+        pressed(){
+            this.$store.commit('increment',10)
         },
-        handleSubmit () {
-            this.submitted = true;
-            const { username, password } = this;
-            const { dispatch } = this.$store;
-            if (username && password) {
-                dispatch('authentication/login', { username, password });
-            }
+        login(){
+            this.$store.commit('login',{Login:this.username,Password:this.password});
         }
-    }
+    },
 };
     
 

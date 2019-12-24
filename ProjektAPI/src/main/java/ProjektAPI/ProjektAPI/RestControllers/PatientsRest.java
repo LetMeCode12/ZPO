@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-@RequestMapping("/Patients")
+@RequestMapping("/api/Patients")
 @RestController
 public class PatientsRest {
 

@@ -1,25 +1,14 @@
 <template>
     <div>
-        XDDD
         <router-view ></router-view>
     </div>
 </template>
 <script>
-
+//https://garywoodfine.com/using-vuex-and-vue-router-in-a-vue-project/
 
 export default {
     name: 'app',
-
-    computed: {
-        alert(){
-            return this.$store.state.alert
-        }
-    },
-    watch:{
-        $route (){
-            this.$store.dispatch('alert/clear');
-        }
-    }
+    el:'#Login',
 }
 </script>
 

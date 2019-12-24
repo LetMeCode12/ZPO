@@ -16,7 +16,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequestMapping("/Buildings")
+@RequestMapping("/api/Buildings")
 @RestController
 public class BuildingsRest {
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/Doctors")
+@RequestMapping("/api/Doctors")
 @RestController
 public class DoctiorsRest  {
 

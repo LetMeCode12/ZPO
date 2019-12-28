@@ -1,36 +1,26 @@
 <template>
-<div> 
-    <h1>{{namePage}}</h1>
-    <button id="button1" v-on:click="click()">Go to other</button>
-    <router-link id="button2" to="/" tag="button"> back to login </router-link>
-    
-        <h1>{{message}}</h1>
-    
-        <h1>{{count}}</h1>
-        <button @click="pressed">presser</button>
-        <router-link to="/404"> go to login</router-link>
+<div id="HomePage"> 
 
-        <input v-model="tokenValue"/>
-        <button @click="clickSetToken">setToken</button>
-        <button @click="clickToken">getToken</button>
-       <h1>{{tokenValueGet}}</h1>
-       <h1>{{getAccount}}</h1>
+    <Box name="Budynki" color='azure' hovercolor='#42bcf5' onClick='/buildings'/>
+    <Box name="Pacjęci" color='azure' hovercolor='#42bcf5'/>
+    <Box name="Lekarze" color='azure' hovercolor='#42bcf5'/>
+    <Box name="Dodaj konto" color='azure' hovercolor='#42bcf5'/>
+    <Box name="Profil" color='azure' hovercolor='#42bcf5'/>
+    <Box name="Wyloguj" color='azure' hovercolor='#42bcf5' onClick='/'/>
+
 </div>
 </template>
 
 <script>
-import {getToken} from "../seciurity/sciurityUtils"
+import Box from "../components/menuBox/box";
 export default {
+    components:{
+        Box
+    },
     data(){
         return{
             namePage:"HomePage",
-            tokenValue:"",
-            tokenValueGet:""
         }
-    },
-    created:function(){
-   
-       // checkAccess();
     },
     computed:{
       message(){
@@ -46,19 +36,23 @@ export default {
     mouted(){
     },
     methods:{
-        pressed(){
-            this.$store.commit('increment',10)
-        },
-        clickToken(){
-            alert(getToken())
-        }
     },
 }
 </script>
 
 <style scoped>
-#button2{
-    background-color: aqua;
-    border-radius: 20px;
+#HomePage{
+    width: 50vw;
+    height: 50vh;
+    background-color: aliceblue;
+    left:25%;
+    top:25%;
+    margin: 0;
+    position: absolute;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+    background-image:none;  
 }
+
 </style>

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-@RequestMapping("/api/Patients")
+@RequestMapping("api/Patients")
 @RestController
 public class PatientsRest {
 
@@ -44,7 +44,7 @@ public class PatientsRest {
 
     @PostMapping("/addPatient")
     private void addPatient(@RequestBody Patient patient){
-        patientsDao.save(new Patient(patient.getName(),patient.getSurrname(),patient.getPesel(),patient.getBirth(),patient.getAddress(),patient.getDoctorID(),patient.getBedID()));
+        patientsDao.save(new Patient(patient.getName(),patient.getSurrname(),patient.getPesel(),patient.getBirth(),patient.getAddress(),patient.getDoctorID(),patient.getBedID(),patient.isInsurance()));
     }
 
     @PutMapping("/addPatientToBed/{patientId}/{bedId}")

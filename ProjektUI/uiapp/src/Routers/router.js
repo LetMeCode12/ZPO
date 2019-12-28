@@ -2,7 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '../containers/Login.vue';
 import HomePage from '../containers/HomePage.vue';
-import NotFound from '../containers/NotFound.vue'
+import NotFound from '../containers/NotFound.vue';
+import Buildings from '../containers/Buildings.vue';
 import {checkAccess} from "../seciurity/sciurityUtils"
 Vue.use(VueRouter);
 
@@ -11,6 +12,8 @@ const router= new VueRouter({
         {path: '/',name:'Login', component: Login},
 
         {path:'/homePage',name:'HomePage',component: HomePage},
+
+        {path:'/buildings',name:"Buildings",component:Buildings},
         
         {path: '/404', component:NotFound},
 

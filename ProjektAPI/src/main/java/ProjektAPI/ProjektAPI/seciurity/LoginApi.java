@@ -20,10 +20,10 @@ public class LoginApi {
     @CrossOrigin
     @PostMapping("/logIn")
     public String login(@RequestBody User user){
-        User login = usersDao.findAll().stream().parallel().filter(e->e.getLogin().equals(user.getLogin())).findFirst().orElse(null);
-        User password = usersDao.findAll().stream().parallel().filter(e->e.getPassword().equals(user.getPassword())).findFirst().orElse(null);
+        User login = usersDao.findAll().stream().parallel().filter(e->e.getLogin().equals(user.getLogin())).filter(r->r.getPassword().equals(user.getPassword())).findFirst().orElse(null);
 
-        if(login!=null&&password!=null&&login.equals(password)) {
+        if(login!=null) {
+
             long Time = System.currentTimeMillis();
             long endTime = Time + 60000;
 
@@ -33,7 +33,7 @@ public class LoginApi {
                     .setIssuedAt(new Date(Time))
                     .setExpiration(new Date(endTime))
                     .signWith(SignatureAlgorithm.HS512, "LoremIpsum")
-                    .compact();
+                    .compact()+(login.isAdmin()?"ADMIN":"_____");
         }
         return "";
     }

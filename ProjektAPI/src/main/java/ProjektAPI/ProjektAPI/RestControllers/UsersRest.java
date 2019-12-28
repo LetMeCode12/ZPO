@@ -18,7 +18,7 @@ public class UsersRest {
 
     @PostMapping("/signIn")
     private void createUser(@RequestBody User user){
-        usersDao.save(new User(user.getLogin(),user.getPassword()));
+        usersDao.save(new User(user.getLogin(),user.getPassword(),user.isAdmin()));
     }
 
 }

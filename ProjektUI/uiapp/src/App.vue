@@ -13,11 +13,11 @@ export default {
 </script>
 
 <style>
-/* * {
-    margin: auto;
-    padding:0;
-    box-sizing: border-box;
-    background-color: aqua;    
-    
-} */
+*{
+    font-family: 'Courier New', Courier, monospace;
+    background-image:url('image.jpg'); 
+    background-size: 100%   
+}
+
+
 </style>

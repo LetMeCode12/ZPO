@@ -18,9 +18,12 @@ public class User {
 
     private String password;
 
-    public User(String login, String password) {
+    private boolean admin;
+
+    public User(String login, String password ,boolean admin) {
         this.login = login;
         this.password = password;
+        this.admin=admin;
     }
 
     public User() {
@@ -40,5 +43,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UUID getIdUser() {
+        return IdUser;
+    }
+
+    public void setIdUser(UUID idUser) {
+        IdUser = idUser;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 }

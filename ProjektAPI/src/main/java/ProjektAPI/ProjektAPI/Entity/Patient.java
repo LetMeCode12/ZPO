@@ -29,10 +29,15 @@ private UUID id;
     private UUID DoctorID;
 @Column(name = "BedID")
     private UUID bedID;
+@Column(name = "Płatności")
+    private long costs;
+@Column(name = "Ubezpieczenia")
+    private boolean Insurance;
+
     public Patient() {
     }
 
-    public Patient(String name, String surrname, Integer pesel, Timestamp birth, String address, UUID DoctorID,UUID bedID) {
+    public Patient(String name, String surrname, Integer pesel, Timestamp birth, String address, UUID DoctorID,UUID bedID,boolean Insurance) {
         this.name = name;
         this.surrname = surrname;
         this.pesel = pesel;
@@ -41,6 +46,8 @@ private UUID id;
         this.dateOfAdmission = new Timestamp(System.currentTimeMillis());
         this.DoctorID = DoctorID;
         this.bedID = bedID;
+        this.costs=0;
+        this.Insurance=Insurance;
     }
 
     public UUID getId() {
@@ -113,5 +120,21 @@ private UUID id;
 
     public void setBedID(UUID bedID) {
         this.bedID = bedID;
+    }
+
+    public long getCosts() {
+        return costs;
+    }
+
+    public void setCosts(long costs) {
+        this.costs = costs;
+    }
+
+    public boolean isInsurance() {
+        return Insurance;
+    }
+
+    public void setInsurance(boolean insurance) {
+        Insurance = insurance;
     }
 }

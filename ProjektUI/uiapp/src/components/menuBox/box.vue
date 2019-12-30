@@ -49,9 +49,7 @@ export default {
         },
         mouseClick(){
             this.$store.commit('goTo',this.onClick)
-            //this.$store.commit(this.onClick)
-        }
-        
+        }        
     },
 }
 </script>

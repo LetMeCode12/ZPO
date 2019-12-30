@@ -13,7 +13,7 @@ const router= new VueRouter({
 
         {path:'/homePage',name:'HomePage',component: HomePage},
 
-        {path:'/buildings',name:"Buildings",component:Buildings},
+        {path:'/buildings',name:"Buildings",component: Buildings},
         
         {path: '/404', component:NotFound},
 

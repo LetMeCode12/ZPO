@@ -2,7 +2,6 @@ import Vuex from 'vuex';
 import Vue from 'vue';
 import { login,logout, getData } from '../seciurity/sciurityUtils';
 import router from '../Routers/router';
-// import { setToken } from '../seciurity/sciurityUtils';
 
 Vue.use(Vuex)
 

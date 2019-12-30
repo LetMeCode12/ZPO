@@ -2,7 +2,7 @@
 <div id="Buildings"> 
     <h1 id="header">{{name}}</h1>
     <ul>
-        <li><span><img id="Icon" src="../icons/add-icon.svg"/><a>Dodaj budynek</a></span></li>
+        <li><span><img id="Icon" src="../icons/add-icon.svg"/><a>{{type}}</a></span></li>
         <li @click="back"><span><a>Wyjście</a><img id="Icon" src="../icons/back-icon.svg"/></span></li>
     </ul>
     <List v-bind:data="getData"/>
@@ -10,11 +10,17 @@
 </template>
 
 <script>
-import List from "../components/list/list";
+import List from "../components/list/listBuildings";
 export default {
     props:{
         name:{
             default:"Budynki"
+        },
+        type:{
+            default:"Dodaj budynek"
+        },
+        path:{
+            default:"http://localhost:8080/api/Buildings/getAll"
         }
     },
     components:{
@@ -22,11 +28,10 @@ export default {
     },
     data(){
         return{
-            namePage:"Buildings",
         }
     },
     created:function(){
-        this.$store.commit("getData",'http://localhost:8080/api/Buildings/getAll')
+        this.$store.commit("getData",this.path)
     },
     computed:{
         getData(){

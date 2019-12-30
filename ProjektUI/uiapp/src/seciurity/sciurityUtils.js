@@ -1,4 +1,5 @@
-import router from '../Routers/router'
+import router from '../Routers/router';
+import Axios from 'axios';
 export async function setToken(token,data,callback){
     if(token){
         let account = {
@@ -49,6 +50,16 @@ export function logout(){
     router.push({path:"/"})
 }
 
+export async function login(Login,Password){
+    let _data={
+        login:Login,
+        password:Password
+      }
+      let respones =await Axios.post("http://localhost:8080/logIn",_data);
+      let data = await respones.data;
+      await setToken(data,_data,goHome)  
+}
+
 export async function updateToken(){
     let account = {
         login:getToken().login,
@@ -80,5 +91,43 @@ export async function updateToken(){
             router.push({path:"/"})
         }else{
             localStorage.setItem("Account",JSON.stringify(account))
+            let _data={
+                login:account.login,
+                password:account.password
+              }
+              let respones =await Axios.post("http://localhost:8080/logIn",_data);
+              let data = await respones.data;
+              await setToken(data,_data) 
         }      
+}
+
+export async function getData(patch){
+
+    const headers = new Headers();
+
+    headers.set('Authorization' , `Bearer ${getToken().token}`)
+    
+    window.console.log(headers.get('Authorization'))
+
+    const myInit={
+        method:'GET',
+        headers,
+        mode:"cors"
+    }
+
+    const request = new Request(patch,myInit);
+
+    window.console.log("request",request)
+    
+    let response = await fetch(request);
+    
+    if(!response.ok){
+        window.console.log("Nie ma OK")
+    }
+    
+    window.console.log("response",response)
+
+    const data = await response.json();
+    window.console.log("data:",data);
+    return data;
 }

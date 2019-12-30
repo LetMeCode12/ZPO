@@ -17,7 +17,6 @@ public class LoginApi {
 
     @Autowired
     UsersDao usersDao;
-    @CrossOrigin
     @PostMapping("/logIn")
     public String login(@RequestBody User user){
         User login = usersDao.findAll().stream().parallel().filter(e->e.getLogin().equals(user.getLogin())).filter(r->r.getPassword().equals(user.getPassword())).findFirst().orElse(null);

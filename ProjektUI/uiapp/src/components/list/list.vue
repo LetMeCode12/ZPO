@@ -2,7 +2,7 @@
     <div id="list">
         test wyszukiwanie tu
         <div id="content">
-            {{name}}
+            data:{{data}}
         </div>
     
     </div>
@@ -13,6 +13,9 @@ export default {
     props:{
         name:{
             default:"lista"
+        },
+        data:{
+            default:[]
         }
     },
 }

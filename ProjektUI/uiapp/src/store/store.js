@@ -1,7 +1,6 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import Axios from 'axios';
-import { setToken, goHome, logout } from '../seciurity/sciurityUtils';
+import { login,logout, getData } from '../seciurity/sciurityUtils';
 import router from '../Routers/router';
 // import { setToken } from '../seciurity/sciurityUtils';
 
@@ -16,7 +15,8 @@ const store = new Vuex.Store({
                 Password:"",
                 Token:""
             },
-            error:false
+            error:false,
+            data:"brak fetcha"
         },
         mutations:{
             increment(state,payload){
@@ -26,25 +26,26 @@ const store = new Vuex.Store({
                 logout();
             },
             async login(state,payload){
-                let _data={
-                  login:payload.Login,
-                  password:payload.Password
-                }
-                let respones =await Axios.post("http://localhost:8080/logIn",_data);
-                let data = await respones.data;
-                await setToken(data,_data,goHome)    
+                await login(payload.Login,payload.Password)
             },
             goTo(state,payload){
                 if(payload==='/'){
                     localStorage.removeItem('Account');
                 }
                 router.push({path:payload});
+            },
+            async getData(state,payload){
+                window.console.log("Datastore:",payload)
+                state.data= await getData(payload)
             }
         },
         actions:{
 
         },
         getters:{
+            getData(state){
+                return state.data;
+            },
             account(state){
                 return state.account;
             },

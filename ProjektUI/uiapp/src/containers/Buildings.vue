@@ -5,7 +5,7 @@
         <li><span><img id="Icon" src="../icons/add-icon.svg"/><a>Dodaj budynek</a></span></li>
         <li @click="back"><span><a>Wyjście</a><img id="Icon" src="../icons/back-icon.svg"/></span></li>
     </ul>
-    <List/>
+    <List v-bind:data="getData"/>
 </div>
 </template>
 
@@ -22,13 +22,16 @@ export default {
     },
     data(){
         return{
-            namePage:"Buildings"
+            namePage:"Buildings",
         }
     },
     created:function(){
+        this.$store.commit("getData",'http://localhost:8080/api/Buildings/getAll')
     },
     computed:{
-   
+        getData(){
+            return this.$store.getters.getData;  
+        }
     },
     mouted(){
     },
@@ -36,7 +39,6 @@ export default {
         back(){
             this.$store.commit('goTo',"/homePage")
         }
-      
     },
 }
 </script>

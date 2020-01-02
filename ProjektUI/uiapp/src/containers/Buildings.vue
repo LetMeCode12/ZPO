@@ -2,15 +2,17 @@
 <div id="Buildings"> 
     <h1 id="header">{{name}}</h1>
     <ul>
-        <li><span><img id="Icon" src="../icons/add-icon.svg"/><a>{{type}}</a></span></li>
+        <li @click="openModal"><span><img id="Icon" src="../icons/add-icon.svg"/><a>{{type}}</a></span></li>
         <li @click="back"><span><a>Wyjście</a><img id="Icon" src="../icons/back-icon.svg"/></span></li>
     </ul>
     <List v-bind:data="getData"/>
+    <modals-container/>
 </div>
 </template>
 
 <script>
 import List from "../components/list/listBuildings";
+import addBuildingModal from '../components/modals/addBuildingModal';
 export default {
     props:{
         name:{
@@ -43,6 +45,10 @@ export default {
     methods:{
         back(){
             this.$store.commit('goTo',"/homePage")
+        },
+        openModal(){
+            window.console.log("Dziala")
+            this.$modal.show(addBuildingModal,{draggable: true},{height: "400px"})
         }
     },
 }

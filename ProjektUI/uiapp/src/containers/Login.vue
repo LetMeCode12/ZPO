@@ -2,11 +2,11 @@
 <div id="Login">
     <h1 id="napis">Logowanie</h1>
     <p id='error' :style="style">Błędne hasło lub login</p>
-    <input id="loginInput" v-model="username" placeholder="Login"/>
+    <input id="Input" v-model="username" placeholder="Login"/>
     <br/>
-    <input id="loginInput" v-model="password" type="Password"  placeholder="Hasło"/>
+    <input id="Input" v-model="password" type="Password"  placeholder="Hasło"/>
     <br/>
-    <button id="buttonLogin" @click="login" @mousedown="onClick()" >Login</button>
+    <button id="Button" @click="login" @mousedown="onClick()" >Login</button>
 </div>
 </template>
 
@@ -80,45 +80,6 @@ export default {
         background-color:azure;
         font-family: 'Courier New', Courier, monospace;
         background-image:none;  
-    }
-
-    #loginInput{
-        width: 15vw;
-        margin-top: 1%;
-        background-color: azure;
-        font-family: 'Courier New', Courier, monospace;
-        text-align: center;
-        border-radius: 20px;
-        background-image:none;  
-
-    }
-    
-    #buttonLogin{
-        margin-top: 3%;
-        width:10vw;
-        height: 15%;
-        border-radius: 20px;
-        border-color:black;
-        background-color:azure;
-        color:black;
-        font-weight: 600;
-        font-family: 'Courier New', Courier, monospace;
-        background-image:none;  
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      
-    }
-
-    #buttonLogin:hover{
-        background-color: aqua;
-        background-image:none;  
-    }
-
-    #error{
-        background-image:none;  
-        background-color: red;
-        text-align: center;
     }
 
 </style>

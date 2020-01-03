@@ -1,6 +1,6 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import { login,logout, getData } from '../seciurity/sciurityUtils';
+import { login,logout, getData, setData } from '../seciurity/sciurityUtils';
 import router from '../Routers/router';
 
 Vue.use(Vuex)
@@ -36,6 +36,9 @@ const store = new Vuex.Store({
             async getData(state,payload){
                 window.console.log("Datastore:",payload)
                 state.data= await getData(payload)
+            },
+            async setData(state,payload){
+                await setData(payload)
             }
         },
         actions:{

@@ -5,12 +5,12 @@
             <h1>Dodawanie Budynku</h1>
         </div>
         <div id='MainContent'>
-        <input id="Input" placeholder="Ulica"/>
+        <input id="Input" v-model="adress" placeholder="Ulica"/>
         <br/>
-        <input id="Input" placeholder="Numer Budynku"/>
+        <input id="Input" v-model="nrBuilding" placeholder="Numer Budynku"/>
         </div>
         <div id="footer">
-        <button id="Button">Dodaj</button>
+        <button id="Button" @click="setData">Dodaj</button>
         <button id="Button" @click="hide">Zamknij</button>
         </div>
         
@@ -21,9 +21,28 @@
 <script>
 
 export default {
+    data () {
+        return {
+            adress: '',
+            nrBuilding: '',
+        }
+    },
+    props:{
+        name:{
+            default:"ModalBudynki"
+        },
+        path:{
+            default:"http://localhost:8080/api/Buildings/getAll"
+        }
+    },
     methods:{
         hide(){
             this.$emit('close');
+        },
+        setData(){
+            let payload = {patch:"http://localhost:8080/api/Buildings/addBuilding",data:{nr_Budynku:this.nrBuilding,address:this.adress}}
+            this.$store.commit("setData",payload)
+            this.$store.commit("getData",this.path)
         }
     }
 }
@@ -43,7 +62,7 @@ export default {
 #footer{
     position:relative;
     align-items: center;
-    bottom: -50px; 
+    bottom: -100px; 
     display: flex;
 }
 
@@ -63,7 +82,7 @@ export default {
   margin-right: auto;
   margin-left: auto;  
   margin-bottom: 20px;
-  margin-top:50px;
+  margin-top:20px;
 }
 
 #Modal{

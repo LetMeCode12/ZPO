@@ -58,4 +58,87 @@ export default {
     background-image:none;  
 }
 
+
+#list{
+    background-color: gray;
+    margin-left: 2.8vw;
+    margin-top: 20px;
+    width: 44vw;
+    height: 720px;
+    background-color: #42bcf5;
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+}
+
+#content{
+    background-color: azure;
+    width: 40vw;
+    margin-left: 1.8vw;
+    margin-top: 20px;
+    height: 650px;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+}
+
+#headers{
+    display: flex;
+    margin-top: 2px;
+    border-bottom-style: solid;
+    border-color: black;
+    border-width: 2px;
+    padding-left: 1vw;
+    
+}
+
+#row{
+    display: flex;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    border-bottom-style: dashed;
+    border-color: black;
+    border-width: 2px;
+    padding-left: 1vw;
+    
+}
+
+#row a{
+    font-weight: 600;
+    font-size: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#headers a{
+    font-weight: 700;
+    font-size: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 7vw;
+}
+
+#row #center{
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#headers #center{
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#icons{
+    margin-left: 1.5vw;
+    float: right;
+    width: 2vw;
+    height: 20px;
+}
+
+#icons:hover{
+    transform: scale(1.5,1.5)
+}
 </style>

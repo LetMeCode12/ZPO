@@ -13,6 +13,7 @@
 <script>
 import List from "../components/list/listBuildings";
 import addBuildingModal from '../components/modals/addBuildingModal';
+import {checkAccess} from '../seciurity/sciurityUtils'
 export default {
     props:{
         name:{
@@ -48,6 +49,7 @@ export default {
         },
         openModal(){
             window.console.log("Dziala")
+            checkAccess();
             this.$modal.show(addBuildingModal,{draggable: true},{height: "400px"})
         }
     },

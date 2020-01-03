@@ -131,3 +131,36 @@ export async function getData(patch){
     window.console.log("data:",data);
     return data;
 }
+
+export async function setData(payload){
+
+    const headers = new Headers();
+
+    headers.set('Authorization' , `Bearer ${getToken().token}`)
+    headers.set('Content-Type' , 'application/json')
+    
+    window.console.log(headers.get('Authorization'))
+
+    const myInit={
+        method:'POST',
+        headers,
+        mode:"cors",
+        body:JSON.stringify(payload.data)
+    }
+
+    const request = new Request(payload.patch,myInit);
+
+    window.console.log("request",request)
+    
+    let response = await fetch(request);
+    
+    if(!response.ok){
+        window.console.log("Nie ma OK")
+    }
+    
+    window.console.log("response",response)
+
+    const data = await response.json();
+    window.console.log("data:",data);
+    //return data;
+}

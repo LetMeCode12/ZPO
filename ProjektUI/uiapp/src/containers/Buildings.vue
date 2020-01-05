@@ -5,7 +5,7 @@
         <li @click="openModal"><span><img id="Icon" src="../icons/add-icon.svg"/><a>{{type}}</a></span></li>
         <li @click="back"><span><a>Wyjście</a><img id="Icon" src="../icons/back-icon.svg"/></span></li>
     </ul>
-    <List v-bind:data="getData"/>
+    <List v-if="renderComponent" v-bind:data="getData"/>
     <modals-container/>
 </div>
 </template>
@@ -31,6 +31,7 @@ export default {
     },
     data(){
         return{
+            renderComponent: this.$store.getters.update
         }
     },
     created:function(){

@@ -39,10 +39,17 @@ export default {
         hide(){
             this.$emit('close');
         },
-        setData(){
-            let payload = {patch:"http://localhost:8080/api/Buildings/addBuilding",data:{nr_Budynku:this.nrBuilding,address:this.adress}}
-            this.$store.commit("setData",payload)
-            this.$store.commit("getData",this.path)
+       async setData(){         
+         let payload = {patch:"http://localhost:8080/api/Buildings/addBuilding",data:{nr_Budynku:this.nrBuilding,address:this.adress}}
+ 
+          if(this.$store.getters.getData.filter(e=>(e.nr_Budynku===parseInt(this.nrBuilding,10) && e.address===this.adress)).length===0){  
+           await this.$store.commit("setData",payload)
+           await this.$store.commit("getData",this.path)
+           await location.reload();
+           await this.$emit('close'); 
+          }else{
+          alert("Bład : Istnieje juz taki budynek.")
+          }    
         }
     }
 }
@@ -106,7 +113,9 @@ export default {
     border-width: 3px;
     border-style: solid;
     position: absolute;
-
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:auto;
 }
 
 

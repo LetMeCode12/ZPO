@@ -1,6 +1,6 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import { login,logout, getData, setData } from '../seciurity/sciurityUtils';
+import { login,logout, getData, setData, deleteData } from '../seciurity/sciurityUtils';
 import router from '../Routers/router';
 
 Vue.use(Vuex)
@@ -15,7 +15,8 @@ const store = new Vuex.Store({
                 Token:""
             },
             error:false,
-            data:"brak fetcha"
+            data:"brak fetcha",
+            update:true
         },
         mutations:{
             increment(state,payload){
@@ -39,7 +40,10 @@ const store = new Vuex.Store({
             },
             async setData(state,payload){
                 await setData(payload)
-            }
+            },
+            async deleteData(state,payload){
+                await deleteData(payload)
+            },
         },
         actions:{
 
@@ -59,6 +63,9 @@ const store = new Vuex.Store({
             },
             error(state){
                 return state.error;
+            },
+            update(state){
+                return state.update;
             }
         }
 })

@@ -81,6 +81,7 @@ export default {
     border-width: 2px;
     border-color: black;
     border-style: solid;
+    overflow: auto;
 }
 
 #headers{

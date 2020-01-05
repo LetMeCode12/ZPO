@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/Buildings")
@@ -99,9 +100,9 @@ public class BuildingsRest {
         return branchDao.findAll();
     }
 
-    @DeleteMapping("/deleteBuilding/{name}")
-    private void deleteBuilding(@PathVariable String name){
-        buildingsDao.delete(buildingsDao.findAll().stream().parallel().filter(e->e.getAddress().equals(name)).findFirst().orElse(null));
+    @DeleteMapping("/deleteBuilding/{id}")
+    private void deleteBuilding(@PathVariable UUID id){
+        buildingsDao.delete(buildingsDao.findAll().stream().parallel().filter(e->e.getId().equals(id)).findFirst().orElse(null));
     }
 
     @GetMapping("/getBranchesfrom/{name}")

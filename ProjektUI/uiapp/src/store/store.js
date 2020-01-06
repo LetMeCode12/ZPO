@@ -16,7 +16,8 @@ const store = new Vuex.Store({
             },
             error:false,
             data:"brak fetcha",
-            update:true
+            update:true,
+            modalData:"No data"
         },
         mutations:{
             increment(state,payload){
@@ -44,6 +45,9 @@ const store = new Vuex.Store({
             async deleteData(state,payload){
                 await deleteData(payload)
             },
+            setModalData(state,payload){
+                state.modalData=payload
+            }
         },
         actions:{
 
@@ -66,6 +70,9 @@ const store = new Vuex.Store({
             },
             update(state){
                 return state.update;
+            },
+            modalData(state){
+                return state.modalData;
             }
         }
 })

@@ -12,7 +12,7 @@
 
 <script>
 import List from "../components/list/listBuildings";
-import addBuildingModal from '../components/modals/addBuildingModal';
+import addBuildingModal from '../components/modals/Buildings/addBuildingModal';
 import {checkAccess} from '../seciurity/sciurityUtils'
 export default {
     props:{

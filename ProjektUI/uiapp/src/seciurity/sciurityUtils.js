@@ -142,7 +142,7 @@ export async function setData(payload){
     window.console.log(headers.get('Authorization'))
 
     const myInit={
-        method:'POST',
+        method:payload.type? payload.type:'POST',
         headers,
         mode:"cors",
         body:JSON.stringify(payload.data)

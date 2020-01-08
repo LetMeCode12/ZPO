@@ -72,7 +72,7 @@ export default {
     border-style: solid;
 }
 
-#content{
+#contentList{
     background-color: azure;
     width: 40vw;
     margin-left: 1.8vw;

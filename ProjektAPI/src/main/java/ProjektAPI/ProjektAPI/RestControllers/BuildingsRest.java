@@ -48,9 +48,9 @@ public class BuildingsRest {
         buildingsDao.save(new Building(building.getNr_Budynku(),building.getAddress()));
     }
 
-    @PutMapping("/addBranch/{nameBd}/{nrBd}")
-    private void addBranch(@RequestBody Branch branch,@PathVariable String nameBd,@PathVariable Integer nrBd){
-        Building bd = buildingsDao.findAll().stream().parallel().filter(e->e.getAddress().equals(nameBd)).filter(r->r.getNr_Budynku().equals(nrBd)).findFirst().orElse(null);
+    @PutMapping("/addBranch/{id}")
+    private void addBranch(@RequestBody Branch branch,@PathVariable UUID id){
+        Building bd = buildingsDao.findAll().stream().parallel().filter(e->e.getId().equals(id)).findFirst().orElse(null);
         Branch new_branch = new Branch(branch.getNr_Branch(),branch.getBranch_Name());
         branchDao.save(new_branch);
         //Branch br = branchDao.findAll().stream().parallel().filter(e->e.getId().equals(branch.getId())).findFirst().orElse(null);

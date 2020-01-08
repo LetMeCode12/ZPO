@@ -1,7 +1,7 @@
 <template>
     <div id="list">
         <!-- wyszukiwanie tu -->
-        <div id="content">
+        <div id="contentList">
             
             <div id="headers">
              <a> # </a> <a id="center"> Nazwa </a>  <a> Nr </a>
@@ -11,10 +11,6 @@
                 <a>{{index}}</a> <a id="center">{{item.address}}</a> <a>{{item.nr_Budynku}}</a>
                  <img id="icons" @click="openModal(item.id)" src="../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.id)" src="../../icons/trash-icon.svg"/>
             </div>
-            
-
-            
-            
         </div>
     <modals-container/>
     </div>

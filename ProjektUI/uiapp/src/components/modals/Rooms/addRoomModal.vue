@@ -2,12 +2,11 @@
     <div id="Modal">
         <div id="content">
         <div id="Header">
-            <h1>Dodawanie Oddziału</h1>
+            <h1>Dodawanie Pokoju</h1>
+            {{modalData}}
         </div>
         <div id='MainContent'>
-        <input id="Input" v-model="nr_Branch" placeholder="Numer Oddziału"/>
-        <br/>
-        <input id="Input" v-model="branch_Name" placeholder="Nazwa Oddziału"/>
+        <input id="Input" type="number" v-model="nr_Room" placeholder="Numer Pokoju"/>
         </div>
         <div id="footer">
         <button id="Button" @click="setData">Dodaj</button>
@@ -23,8 +22,7 @@
 export default {
     data () {
         return {
-            nr_Branch: '',
-            branch_Name: '',
+            nr_Room: '',
         }
     },
     props:{
@@ -35,13 +33,17 @@ export default {
             default:"http://localhost:8080/api/Buildings/getAll"
         }
     },
+    created:function(){
+           this.modalData=this.$store.getters.getData.find(e=>e.id===this.$store.getters.modalData).branches.find(e=>e.id===this.$store.getters.getBranchId);
+           window.console.log("modalData:",this.modalData)
+    },
     methods:{
         hide(){
             this.$emit('close');
         },
        async setData(){     
                
-         let payload = {type:"PUT",patch:`http://localhost:8080/api/Buildings/addBranch/${this.$store.getters.modalData}`,data:{nr_Branch:this.nr_Branch, branch_Name:this.branch_Name,buildingID:this.$store.getters.modalData}}
+         let payload = {type:"PUT",patch:`http://localhost:8080/api/Buildings/updateBranch/addRoom/${this.$store.getters.modalData}/${this.modalData.id}`,data:{nr_Room:this.nr_Room, branchID:this.modalData.id}}
             window.console.log("pajlod:",payload);
         
            await this.$store.commit("setData",payload)
@@ -49,7 +51,8 @@ export default {
            await location.reload();
            await this.$emit('close'); 
          
-        }
+        },
+        
     }
 }
 </script>

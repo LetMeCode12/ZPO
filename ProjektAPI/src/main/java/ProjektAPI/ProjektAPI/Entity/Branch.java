@@ -24,13 +24,24 @@ public class Branch {
     @OneToMany
     private List<Room> Rooms;
 
-    public Branch(int nr_Branch, String branch_Name) {
+    private UUID BuildingID;
+
+    public Branch(int nr_Branch, String branch_Name,UUID BuildingID) {
         this.nr_Branch = nr_Branch;
         this.branch_Name = branch_Name;
         this.Rooms = new ArrayList<>();
+        this.BuildingID=BuildingID;
     }
 
     public Branch() {
+    }
+
+    public UUID getBuildingID() {
+        return BuildingID;
+    }
+
+    public void setBuildingID(UUID buildingID) {
+        BuildingID = buildingID;
     }
 
     public UUID getId() {

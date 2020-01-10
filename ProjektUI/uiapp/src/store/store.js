@@ -18,7 +18,8 @@ const store = new Vuex.Store({
             data:"brak fetcha",
             update:true,
             modalData:"No data",
-            getBranchId:"NoID"
+            getBranchId:"NoID",
+            getRoomId:"NoID"
         },
         mutations:{
             increment(state,payload){
@@ -51,6 +52,9 @@ const store = new Vuex.Store({
             },
             getBranchId(state,payload){
                 state.getBranchId=payload;
+            },
+            getRoomId(state,payload){
+                state.getRoomId=payload;
             }
         },
         actions:{
@@ -80,6 +84,9 @@ const store = new Vuex.Store({
             },
             getBranchId(state){
                 return state.getBranchId;
+            },
+            getRoomId(state){
+                return state.getRoomId;
             }
         }
 })

@@ -1,19 +1,20 @@
 <template>
 <div id="Modal">
     <div id="content">
-    <div id="header"><h1>Budynek</h1></div>
-    <div id="topcontent"><a>Adress :{{modalData.address}}</a>
-    <br/>
-    <a>Nr Budynku :{{modalData.nr_Budynku}}</a>
-    </div> 
+    <div id="header"><h1>Pokój</h1></div>
+    <div id="topcontent">
     
-    <!-- <div>{{modalData}}</div> -->
+    <a>Nr Pokoju :{{modalData.branch_Name}}</a>
+    {{modalData}}
+    </div>  
+    
     <div id="contentList">
         <div id="headers">
-             <a> # </a> <a> Nr </a> <a id="center"> Oddział</a>
+             <a> # </a> <a id="center"> Łóżka </a>
         </div>
-    <div id="row" v-for="(item,index) in modalData.branches" v-bind:key="item">
-        <a>{{index}}</a> <a>{{item.nr_Branch}}</a>  <a>{{item.branch_Name}}</a>  <img id="icons" @click="openModal(item.id)" src="../../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.id)" src="../../../icons/trash-icon.svg"/>
+        
+    <div id="row" v-for="(item,index) in modalData.beds" v-bind:key="item">
+        <a>{{index}}</a> <a>{{item.nrBed}}</a> <a>{{(item.idPatient?"Zajęte":"Wolne")}}</a>  <img id="icons" @click="openModal(item.id)" src="../../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.id)" src="../../../icons/trash-icon.svg"/>
     </div>
     </div>
      <div id="footer">
@@ -25,9 +26,6 @@
 </template>
 
 <script>
-import modifyBranchModal from "../Branches/modifyBranchModal";
-import { checkAccess } from '../../../seciurity/sciurityUtils';
-import addBranchModalVue from '../Branches/addBranchModal.vue';
 export default {
     data(){
         return{
@@ -35,7 +33,8 @@ export default {
         }
     },
     created:function(){
-           this.modalData=this.$store.getters.getData.find(e=>e.id===this.$store.getters.modalData);
+           this.modalData=this.$store.getters.getData.find(e=>e.id===this.$store.getters.modalData).branches.find(e=>e.id===this.$store.getters.getBranchId);
+           window.console.log("modalData:",this.modalData)
     },
     methods:{
         findData(){
@@ -43,24 +42,6 @@ export default {
         },
         hide(){
              this.$emit('close');
-        },
-        async openModal(id){
-          checkAccess();
-          await this.$store.commit("getBranchId",id)  
-          await window.console.log(this.$store.getters.modalData);
-          this.$modal.show(modifyBranchModal,{draggable: true},{height: "700px"})
-
-        },
-        async _delete(id){
-            checkAccess();
-            window.console.log("ID:",id)
-            let payload = {patch:`http://localhost:8080/api/Buildings/branchDelete/${id}`}
-            await this.$store.commit("deleteData",payload)
-            await this.$store.commit("getData","http://localhost:8080/api/Buildings/getAll")
-            await location.reload();
-        },
-        setData(){
-            this.$modal.show(addBranchModalVue,{draggable: true},{height: "400px"})
         }
     }
 }
@@ -71,10 +52,6 @@ export default {
     background-image: none;
 }
 
-#headers #center{
-    padding-right: 160px;
-    padding-left: 20px;
-}
 
 #topcontent {
     padding-top:10px;
@@ -112,10 +89,14 @@ h1{
     text-align: center;
 }
 
+#headers{
+    padding-right: 90px;
+}
+
 #headers a{
+    padding-left: 35px;
     margin-left: auto;
     margin-right: auto;
-    padding-right: 0px;
 }
 
 #row a{

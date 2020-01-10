@@ -4,14 +4,16 @@
     <div id="header"><h1>Oddział</h1></div>
     <div id="topcontent">
     
-    <a>Nazwa oddziału :{{modalData.branch_Name}}</a></div>  
+    <a>Nazwa oddziału :{{modalData.branch_Name}}</a>
+    <br/>
+    <a>Nr :{{modalData.nr_Branch}}</a></div>  
     
     <div id="contentList">
         <div id="headers">
-             <a> # </a> <a id="center"> Łóżka </a>
+             <a id="first"> # </a> <a> Nr Pokoju </a> <a> Łóżka </a> <a id="last"> Wolne </a> 
         </div>
-    <div id="row" v-for="(item,index) in modalData.beds" v-bind:key="item">
-        <a>{{index}}</a> <a>{{item}}</a>  <img id="icons" @click="openModal(item.id)" src="../../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.id)" src="../../../icons/trash-icon.svg"/>
+    <div id="row" v-for="(item,index) in modalData.rooms" v-bind:key="item">
+        <a>{{index}}</a> <a>{{item.nr_Room}}</a> <a>{{item.beds.length}}</a> <a>{{item.beds.map(e=>e.idPatient!==null).length}}</a> <img id="icons" @click="openModal(item.id)" src="../../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.id)" src="../../../icons/trash-icon.svg"/>
     </div>
     </div>
      <div id="footer">
@@ -23,7 +25,11 @@
 </template>
 
 <script>
+import addRoomModalVue from "../../modals/Rooms/addRoomModal";
+import modifyRoomModalVue from "../../modals/Rooms/modifyRoomModal";
+import { checkAccess } from '../../../seciurity/sciurityUtils';
 export default {
+    
     data(){
         return{
             modalData:"NoData"
@@ -31,7 +37,7 @@ export default {
     },
     created:function(){
            this.modalData=this.$store.getters.getData.find(e=>e.id===this.$store.getters.modalData).branches.find(e=>e.id===this.$store.getters.getBranchId);
-           window.console.log("modalData:",this.modalData.branches.find(e=>e.id===this.$store.getters.getBranchId))
+           window.console.log("modalData:",this.modalData)
     },
     methods:{
         findData(){
@@ -39,7 +45,26 @@ export default {
         },
         hide(){
              this.$emit('close');
-        }
+        },
+         setData(){
+             checkAccess();
+            this.$modal.show(addRoomModalVue,{draggable: true},{height: "400px"})
+        },
+          async _delete(id){
+            checkAccess();
+            window.console.log("ID:",id)
+            let payload = {patch:`http://localhost:8080/api/Buildings/roomDelete/${id}`}
+            await this.$store.commit("deleteData",payload)
+            await this.$store.commit("getData","http://localhost:8080/api/Buildings/getAll")
+            await location.reload();
+        },
+        async openModal(id){
+          checkAccess();
+          await this.$store.commit("getRoomId",id)  
+          await window.console.log(this.$store.getters.modalData);
+          this.$modal.show(modifyRoomModalVue,{draggable: true},{height: "700px"})
+
+        },
     }
 }
 </script>
@@ -87,13 +112,22 @@ h1{
 }
 
 #headers{
-    padding-right: 90px;
+    padding-right: 0px;
+}
+
+#headers #first{
+    padding-left: 25px;
+}
+
+#headers #last{
+    padding-right: 140px;
 }
 
 #headers a{
-    padding-left: 35px;
+    padding-left: 0px;
     margin-left: auto;
     margin-right: auto;
+    padding-right: 0px;
 }
 
 #row a{

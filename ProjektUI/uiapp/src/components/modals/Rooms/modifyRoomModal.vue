@@ -1,19 +1,24 @@
 <template>
 <div id="Modal">
     <div id="content">
-    <div id="header"><h1>Budynek</h1></div>
-    <div id="topcontent"><a>Adress :{{modalData.address}}</a>
-    <br/>
-    <a>Nr Budynku :{{modalData.nr_Budynku}}</a>
-    </div> 
+    <div id="header"><h1>Pokój</h1></div>
+    <div id="topcontent">
     
-    <!-- <div>{{modalData}}</div> -->
+    <a>Nr Pokoju :{{modalData.nr_Room}}</a>
+    <br/>
+    <a>Ilość łóżek :{{modalData.beds.length}}</a>
+    <br/>
+    <a>Ilość łóżek wolnych :{{modalData.beds.map(e=>e.idPatient!==null).length}}</a>
+
+    </div>  
+    
     <div id="contentList">
         <div id="headers">
-             <a> # </a> <a> Nr </a> <a id="center"> Oddział</a>
+             <a id="first"> # </a> <a > Łóżka </a> <a id="last">Wolne</a>
         </div>
-    <div id="row" v-for="(item,index) in modalData.branches" v-bind:key="item">
-        <a>{{index}}</a> <a>{{item.nr_Branch}}</a>  <a>{{item.branch_Name}}</a>  <img id="icons" @click="openModal(item.id)" src="../../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.id)" src="../../../icons/trash-icon.svg"/>
+        
+    <div id="row" v-for="(item,index) in modalData.beds" v-bind:key="item">
+        <a>{{index}}</a> <a>{{item.nrBed}}</a> <a>{{(item.idPatient?"Zajęte":"Wolne")}}</a> <img id="icons" @click="openModal(item.idBed)" src="../../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.idBed)" src="../../../icons/trash-icon.svg"/>
     </div>
     </div>
      <div id="footer">
@@ -25,9 +30,8 @@
 </template>
 
 <script>
-import modifyBranchModal from "../Branches/modifyBranchModal";
+import addBedsModalVue from "../Beds/addBedsModal";
 import { checkAccess } from '../../../seciurity/sciurityUtils';
-import addBranchModalVue from '../Branches/addBranchModal.vue';
 export default {
     data(){
         return{
@@ -35,7 +39,9 @@ export default {
         }
     },
     created:function(){
-           this.modalData=this.$store.getters.getData.find(e=>e.id===this.$store.getters.modalData);
+           this.modalData=this.$store.getters.getData.find(e=>e.id===this.$store.getters.modalData).branches.find(e=>e.id===this.$store.getters.getBranchId).rooms.find(r=>r.id===this.$store.getters.getRoomId);
+           window.console.log("modalData:",this.modalData)
+           window.console.log("branch id:",this.$store.getters.getBranchId)
     },
     methods:{
         findData(){
@@ -44,24 +50,18 @@ export default {
         hide(){
              this.$emit('close');
         },
-        async openModal(id){
-          checkAccess();
-          await this.$store.commit("getBranchId",id)  
-          await window.console.log(this.$store.getters.modalData);
-          this.$modal.show(modifyBranchModal,{draggable: true},{height: "700px"})
-
+        setData(){
+            checkAccess();
+            this.$modal.show(addBedsModalVue,{draggable: true},{height: "400px"})
         },
-        async _delete(id){
+           async _delete(id){
             checkAccess();
             window.console.log("ID:",id)
-            let payload = {patch:`http://localhost:8080/api/Buildings/branchDelete/${id}`}
+            let payload = {patch:`http://localhost:8080/api/Buildings/bedDelete/${id}`}
             await this.$store.commit("deleteData",payload)
             await this.$store.commit("getData","http://localhost:8080/api/Buildings/getAll")
             await location.reload();
         },
-        setData(){
-            this.$modal.show(addBranchModalVue,{draggable: true},{height: "400px"})
-        }
     }
 }
 </script>
@@ -71,10 +71,6 @@ export default {
     background-image: none;
 }
 
-#headers #center{
-    padding-right: 160px;
-    padding-left: 20px;
-}
 
 #topcontent {
     padding-top:10px;
@@ -89,6 +85,15 @@ export default {
     border-bottom-color: black;
 }
 
+#headers #first{
+    padding-left: 15px;
+}
+
+#headers #last{
+    padding-right: 150px;
+}
+
+
 #footer{
     position:relative;
     align-items: center;
@@ -102,7 +107,7 @@ export default {
 }
 
 #contentList{
-    height: 480px;
+    height: 450px;
     width: 500px;
     margin-left: auto;
     margin-right: auto;
@@ -112,7 +117,12 @@ h1{
     text-align: center;
 }
 
+#headers{
+    padding-right: 0px;
+}
+
 #headers a{
+    padding-left: 0px;
     margin-left: auto;
     margin-right: auto;
     padding-right: 0px;

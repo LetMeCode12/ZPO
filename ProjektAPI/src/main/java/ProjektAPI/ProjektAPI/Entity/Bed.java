@@ -15,15 +15,26 @@ public class Bed {
     @Column(name="Nr_Bed")
     private int nrBed;
 
+    private UUID RoomID;
+
     @Column(name = "ID_Patient")
     private UUID idPatient;
 
-    public Bed(int nrBed, UUID idPatient) {
+    public Bed(int nrBed, UUID idPatient,UUID RoomID) {
         this.nrBed = nrBed;
         this.idPatient = idPatient;
+        this.RoomID= RoomID;
     }
 
     public Bed() {
+    }
+
+    public UUID getRoomID() {
+        return RoomID;
+    }
+
+    public void setRoomID(UUID roomID) {
+        RoomID = roomID;
     }
 
     public UUID getIdBed() {

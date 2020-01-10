@@ -18,16 +18,27 @@ public class Room {
     @Column(name="Nr_Room")
     private Integer nr_Room;
 
+    private UUID BranchID;
+
 //    @Column(name = "Free_Beds")
 //    private Integer free_Beds;
 
     @OneToMany
     private List<Bed> Beds;
 
-    public Room(Integer nr_Room) {
+    public Room(Integer nr_Room,UUID BranchID) {
         this.nr_Room = nr_Room;
        // this.free_Beds = free_Beds;
         this.Beds = new ArrayList<>();
+        this.BranchID=BranchID;
+    }
+
+    public UUID getBranchID() {
+        return BranchID;
+    }
+
+    public void setBranchID(UUID branchID) {
+        BranchID = branchID;
     }
 
     public Room() {

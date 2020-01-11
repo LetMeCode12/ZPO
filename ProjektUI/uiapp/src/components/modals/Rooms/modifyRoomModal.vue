@@ -18,7 +18,7 @@
         </div>
         
     <div id="row" v-for="(item,index) in modalData.beds" v-bind:key="item">
-        <a>{{index}}</a> <a>{{item.nrBed}}</a> <a>{{(item.idPatient?"Zajęte":"Wolne")}}</a> <img id="icons" @click="openModal(item.idBed)" src="../../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.idBed)" src="../../../icons/trash-icon.svg"/>
+        <a>{{index}}</a> <a>{{item.nrBed}}</a> <a>{{(item.idPatient?"Zajęte":"Wolne")}}</a> <img id="icons" @click="_delete(item.idBed)" src="../../../icons/trash-icon.svg"/>
     </div>
     </div>
      <div id="footer">
@@ -31,6 +31,7 @@
 
 <script>
 import addBedsModalVue from "../Beds/addBedsModal";
+import modifyBedsModalVue from "../Beds/modifyBedsModal";
 import { checkAccess } from '../../../seciurity/sciurityUtils';
 export default {
     data(){
@@ -62,6 +63,13 @@ export default {
             await this.$store.commit("getData","http://localhost:8080/api/Buildings/getAll")
             await location.reload();
         },
+            async openModal(id){
+          checkAccess();
+          await this.$store.commit("getBedId",id)  
+          await window.console.log(this.$store.getters.modalData);
+          this.$modal.show(modifyBedsModalVue,{draggable: true},{height: "700px"})
+
+        },
     }
 }
 </script>
@@ -90,7 +98,7 @@ export default {
 }
 
 #headers #last{
-    padding-right: 150px;
+    padding-right: 80px;
 }
 
 

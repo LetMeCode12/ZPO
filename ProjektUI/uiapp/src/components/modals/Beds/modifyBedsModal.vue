@@ -1,24 +1,13 @@
 <template>
 <div id="Modal">
     <div id="content">
-    <div id="header"><h1>Pokój</h1></div>
-    <div id="topcontent">
-    
-    <a>Nr Pokoju :{{modalData.branch_Name}}</a>
-    {{modalData}}
-    </div>  
-    
-    <div id="contentList">
-        <div id="headers">
-             <a> # </a> <a id="center"> Łóżka </a>
-        </div>
+    <div id="header"><h1>Łóżko</h1></div>
         
-    <div id="row" v-for="(item,index) in modalData.beds" v-bind:key="item">
-        <a>{{index}}</a> <a>{{item.nrBed}}</a> <a>{{(item.idPatient?"Zajęte":"Wolne")}}</a>  <img id="icons" @click="openModal(item.id)" src="../../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.id)" src="../../../icons/trash-icon.svg"/>
-    </div>
+    <div id="contentList">
+            <a></a>
     </div>
      <div id="footer">
-        <button id="Button" @click="setData">Dodaj</button>
+        <!-- <button id="Button" @click="setData">Dodaj</button> -->
         <button id="Button" @click="hide">Zamknij</button>
     </div>
 </div>
@@ -32,9 +21,11 @@ export default {
             modalData:"NoData"
         }
     },
-    created:function(){
-           this.modalData=this.$store.getters.getData.find(e=>e.id===this.$store.getters.modalData).branches.find(e=>e.id===this.$store.getters.getBranchId);
+   created:function(){
+           this.modalData=this.$store.getters.getData.find(e=>e.id===this.$store.getters.modalData).branches.find(e=>e.id===this.$store.getters.getBranchId).rooms.find(r=>r.id===this.$store.getters.getRoomId).beds.find(e=>e.idBed===this.$store.getters.getBedId)
            window.console.log("modalData:",this.modalData)
+           window.console.log("roomid",this.$store.getters.getRoomId);
+           window.console.log("branch id:",this.$store.getters.getBranchId)
     },
     methods:{
         findData(){

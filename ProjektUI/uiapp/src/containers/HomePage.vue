@@ -2,8 +2,8 @@
 <div id="HomePage"> 
 
     <Box name="Budynki" color='azure' hovercolor='#42bcf5' onClick='/buildings'/>
-    <Box name="Pacjęci" color='azure' hovercolor='#42bcf5'/>
-    <Box name="Lekarze" color='azure' hovercolor='#42bcf5'/>
+    <Box name="Pacjęci" color='azure' hovercolor='#42bcf5' onClick='/patients'/>
+    <Box name="Lekarze" color='azure' hovercolor='#42bcf5' onClick='/doctors'/>
     <Box name="Dodaj konto" color='azure' hovercolor='#42bcf5'/>
     <Box name="Profil" color='azure' hovercolor='#42bcf5'/>
     <Box name="Wyloguj" color='azure' hovercolor='#42bcf5' onClick='/'/>

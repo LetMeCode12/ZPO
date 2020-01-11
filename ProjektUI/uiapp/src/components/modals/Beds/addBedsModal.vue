@@ -49,7 +49,7 @@ export default {
            await this.$store.commit("setData",payload)
            await this.$store.commit("getData",this.path)
            await location.reload();
-           await this.$emit('close'); 
+           await this.$emit('close');  
          
         },
         

@@ -19,7 +19,8 @@ const store = new Vuex.Store({
             update:true,
             modalData:"No data",
             getBranchId:"NoID",
-            getRoomId:"NoID"
+            getRoomId:"NoID",
+            getBedId:"NoID"
         },
         mutations:{
             increment(state,payload){
@@ -55,6 +56,9 @@ const store = new Vuex.Store({
             },
             getRoomId(state,payload){
                 state.getRoomId=payload;
+            },
+            getBedId(state,payload){
+                state.getBedId=payload;
             }
         },
         actions:{
@@ -87,6 +91,9 @@ const store = new Vuex.Store({
             },
             getRoomId(state){
                 return state.getRoomId;
+            },
+            getBedId(state){
+                return state.getBedId;
             }
         }
 })

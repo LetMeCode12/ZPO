@@ -18,7 +18,7 @@ private UUID id;
 @Column(name="Surrname")
     private String surrname;
 @Column(name = "Pesel")
-    private Integer pesel;
+    private String pesel;
 @Column(name = "Date_of_birth")
     private Timestamp birth;
 @Column(name="Address")
@@ -37,7 +37,7 @@ private UUID id;
     public Patient() {
     }
 
-    public Patient(String name, String surrname, Integer pesel, Timestamp birth, String address, UUID DoctorID,UUID bedID,boolean Insurance) {
+    public Patient(String name, String surrname, String pesel, Timestamp birth, String address, UUID DoctorID,UUID bedID,boolean Insurance) {
         this.name = name;
         this.surrname = surrname;
         this.pesel = pesel;
@@ -74,11 +74,11 @@ private UUID id;
         this.surrname = surrname;
     }
 
-    public Integer getPesel() {
+    public String getPesel() {
         return pesel;
     }
 
-    public void setPesel(Integer pesel) {
+    public void setPesel(String pesel) {
         this.pesel = pesel;
     }
 

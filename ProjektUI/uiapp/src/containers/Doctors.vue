@@ -11,19 +11,19 @@
 </template>
 
 <script>
-import List from "../components/list/listBuildings";
+import List from "../components/list/listDoctors";
 import addBuildingModal from '../components/modals/Buildings/addBuildingModal';
 import {checkAccess} from '../seciurity/sciurityUtils'
 export default {
     props:{
         name:{
-            default:"Budynki"
+            default:"Lekrze"
         },
         type:{
-            default:"Dodaj budynek"
+            default:"Dodaj Lekarza"
         },
         path:{
-            default:"http://localhost:8080/api/Buildings/getAll"
+            default:"http://localhost:8080/api/Doctors/getDoctors"
         }
     },
     components:{

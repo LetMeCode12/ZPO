@@ -12,7 +12,7 @@
 
 <script>
 import List from "../components/list/listPatients";
-import addBuildingModal from '../components/modals/Buildings/addBuildingModal';
+import addPatientsModal from '../components/modals/Patients/addPatientsModal';
 import {checkAccess} from '../seciurity/sciurityUtils'
 export default {
     props:{
@@ -51,7 +51,7 @@ export default {
         openModal(){
             window.console.log("Dziala")
             checkAccess();
-            this.$modal.show(addBuildingModal,{draggable: true},{height: "400px"})
+            this.$modal.show(addPatientsModal,{draggable: true},{height: "600px"})
         }
     },
 }

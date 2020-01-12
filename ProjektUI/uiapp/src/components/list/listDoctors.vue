@@ -4,11 +4,11 @@
         <div id="contentList">
             
             <div id="headers">
-             <a id="first"> # </a> <a> Pesel </a> <a> Imie </a> <a> Nazwisko </a> <a id="last"> Opłaty </a>
+             <a id="first"> # </a> <a> Imie </a> <a>Nazwisko</a> <a id="last"> Specializacja </a>
             </div>
            
             <div id="row" v-for="(item,index) in data" v-bind:key="item">
-                <a>{{index}}</a> <a>{{item.pesel}}</a> <a>{{item.name}}</a> <a>{{item.surrname}}</a> <a>{{item.costs}} zł</a> <a>{{item.nr_Budynku}}</a>
+                <a>{{index}}</a> <a id="center">{{item.name}}</a> <a>{{item.surrname}}</a> <a>{{item.specialization}}</a>
                  <img id="icons" @click="openModal(item.id)" src="../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.id)" src="../../icons/trash-icon.svg"/>
             </div>
         </div>
@@ -19,7 +19,7 @@
 <script>
 import '../../icons/info-icon.svg'
 import { checkAccess } from '../../seciurity/sciurityUtils';
-import modifyPatientsModal from'../modals/Patients/modifyPatientsModal';
+import modifyBuildingsModal from'../modals/Buildings/modifyBuildingsModal';
 export default {
     props:{
         name:{
@@ -37,13 +37,13 @@ export default {
           checkAccess();
           await this.$store.commit("setModalData",id)  
           await window.console.log(this.$store.getters.modalData);
-          this.$modal.show(modifyPatientsModal,{draggable: true},{height: "700px"})
+          this.$modal.show(modifyBuildingsModal,{draggable: true},{height: "700px"})
 
         },
        async _delete(id){
             checkAccess();
             window.console.log(id)
-            let payload = {patch:`http://localhost:8080/api/Patients/deletePatient/${id}`}
+            let payload = {patch:`http://localhost:8080/api/Buildings/deleteBuilding/${id}`}
             await this.$store.commit("deleteData",payload)
             await this.$store.commit("getData","http://localhost:8080/api/Buildings/getAll")
             await location.reload();
@@ -59,6 +59,7 @@ export default {
 }
 
 #row a{
+    padding: 0px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -67,16 +68,15 @@ export default {
     padding-left:0px;
     margin-right: auto;
     margin-left:auto;
-    padding-right: 3.5vw;
+    padding-right: 0vw;
 }
 
 #headers #last{
-    padding-right: 8.5vw;
+    padding-right: 6vw;
 }
 
 #headers #first{
-    padding-left: 1.5vw;
+    padding-left: 2vw;
     margin-left: 0px;
 }
 </style>
-

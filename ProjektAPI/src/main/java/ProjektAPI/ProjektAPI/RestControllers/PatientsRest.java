@@ -59,12 +59,20 @@ public class PatientsRest {
     @DeleteMapping("/deletePatient/{patientID}")
     private void delete (@PathVariable UUID patientID){
         Patient patient = patientsDao.findAll().stream().parallel().filter(e->e.getId().equals(patientID)).findFirst().orElse(null);
-        Bed bed = bedDao.findAll().stream().parallel().filter(e->e.getIdBed().equals(patient.getBedID())).findFirst().get();
-        bed.setIdPatient(null);
-        Doctor doctor = doctorDao.findAll().stream().parallel().filter(e->e.getId().equals(patient.getDoctorID())).findFirst().get();
-        doctor.getPatients().remove(patient);
-        bedDao.save(bed);
-        doctorDao.save(doctor);
+        Bed bed = bedDao.findAll().stream().parallel().filter(e->e.getIdBed().equals(patient.getBedID())).findFirst().orElse(null);
+        if(bed!=null) {
+            bed.setIdPatient(null);
+        }
+        Doctor doctor = doctorDao.findAll().stream().parallel().filter(e->e.getId().equals(patient.getDoctorID())).findFirst().orElse(null);
+        if(doctor!=null) {
+            doctor.getPatients().remove(patient);
+        }
+        if(bed!=null) {
+            bedDao.save(bed);
+        }
+        if(doctor!=null) {
+            doctorDao.save(doctor);
+        }
         patientsDao.delete(patient);
     }
 }

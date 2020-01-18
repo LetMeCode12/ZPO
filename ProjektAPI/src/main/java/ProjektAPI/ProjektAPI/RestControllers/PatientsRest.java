@@ -56,6 +56,25 @@ public class PatientsRest {
         patientsDao.save(patient);
     }
 
+    @PutMapping("/updatePatient/{patientId}")
+    private void updatePatien(@PathVariable UUID patientId,@RequestBody Patient patient){
+        try {
+            Patient _patient = patientsDao.findAll().stream().parallel().filter(e -> e.getId().equals(patientId)).findFirst().orElse(null);
+
+                _patient.setCosts(patient.getCosts());
+
+           // if(patient.getDoctorID()!=null) {
+            _patient.setDoctorID(patient.getDoctorID());
+            _patient.setInsurance(patient.isInsurance());
+          //  }
+
+            System.out.println("Pacjent:"+_patient.getDoctorID());
+            patientsDao.save(_patient);
+        }catch (Exception e){
+            System.out.println("Error"+e);
+        }
+    }
+
     @DeleteMapping("/deletePatient/{patientID}")
     private void delete (@PathVariable UUID patientID){
         Patient patient = patientsDao.findAll().stream().parallel().filter(e->e.getId().equals(patientID)).findFirst().orElse(null);

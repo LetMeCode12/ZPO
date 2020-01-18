@@ -15,13 +15,26 @@
     <br/>
     <a>Data rejestracji :{{new Date(modalData.dateOfAdmission).getDate()}}-{{new Date(modalData.dateOfAdmission).getMonth()+1}}-{{new Date(modalData.dateOfAdmission).getFullYear()}}r</a>
     <br/>
-    <a>Ubezpieczenie :{{(modalData.insurance?"Tak":"Nie")}}</a>
+    <a>Ubezpieczenie :{{(modalData.insurance?"Tak":"Nie")}} <button id="Button" @click="change">Zmień</button> </a>
     <br/>
     <a>Zaległości :{{modalData.costs}} zł</a>
     <br/>
     <a>Posiada łóżko :{{(modalData.bedID?modalData.bedID:"Nie")}}</a>
     <br/>
-    <a>Przypisany do lekarza :{{(modalData.doctorID?modalData.doctorID:"Nie")}}</a>
+    <a>Przypisany do lekarza :{{(modalData.doctorID?this.doctors.find(e=>e.id===modalData.doctorID).name:"Nie")}} {{(modalData.doctorID?this.doctors.find(e=>e.id===modalData.doctorID).surrname:"")}}</a>
+     <br/>
+    <input id="Input" placeholder="Dodaj zaległość" type="number" v-model="zaległość"/>
+     <br/>
+    <button id="Button" @click="setCost">Dodaj Zaległości</button>
+    <br/>
+    <select id="select" v-model="selectedDoctor">
+        <option>Brak</option>
+        <option v-for="item in doctors" v-bind:key="item" v-bind:value="item.id">{{item.name}} {{item.surrname}} {{item.specialization}}</option>
+    </select>
+    <br/>
+    <button id="Button" @click="findData">Dodaj Lekarza</button>
+
+
 
     </div> 
     
@@ -36,20 +49,42 @@
 
 <script>
 import modifyBranchModal from "../Branches/modifyBranchModal";
-import { checkAccess } from '../../../seciurity/sciurityUtils';
+import { checkAccess, getData} from '../../../seciurity/sciurityUtils';
 import addBranchModalVue from '../Branches/addBranchModal.vue';
 export default {
     data(){
         return{
-            modalData:"NoData"
+            modalData:"NoData",
+            zaległość:0,
+            doctors:[],
+            selectedDoctor:""
         }
     },
-    created:function(){
+    created: async function(){
+        let payload = `http://localhost:8080/api/Doctors/getDoctors`
            this.modalData=this.$store.getters.getData.find(e=>e.id===this.$store.getters.modalData);
+        this.doctors=await getData(payload)
+        window.console.log("doctorsy:",this.doctors)
     },
     methods:{
-        findData(){
-            window.console.log(this.modalData);
+        async change (){
+            window.console.log("XDDD",this.modalData);
+            let payload = {type:"PUT",patch:`http://localhost:8080/api/Patients/updatePatient/${this.modalData.id}`,data:{costs:this.modalData.costs,doctorID:this.modalData.doctorID,insurance:!this.modalData.insurance}}
+            await this.$store.commit("setData",payload)
+            this.modalData.insurance=!this.modalData.insurance
+        },
+        async findData(){
+            window.console.log("XDDD",this.selectedDoctor);
+           // this.modalData.doctorID=this.doctors.find(e=>e.id===this.selectedDoctor).name
+            let payload = {type:"PUT",patch:`http://localhost:8080/api/Patients/updatePatient/${this.modalData.id}`,data:{insurance:this.modalData.insurance,costs:this.modalData.costs,doctorID:(this.selectedDoctor==="Brak"?null:this.selectedDoctor)}}
+            await this.$store.commit("setData",payload)
+            location.reload();
+        },
+       async setCost(){
+           let payload = {type:"PUT",patch:`http://localhost:8080/api/Patients/updatePatient/${this.modalData.id}`,data:{insurance:this.modalData.insurance,costs:this.zaległość,doctorID:this.modalData.doctorID}}
+            await this.$store.commit("setData",payload)
+            //location.reload();
+            this.modalData.costs=this.zaległość
         },
         hide(){
              this.$emit('close');
@@ -142,6 +177,7 @@ h1{
 }
 
 #content{
+    align-items: center;
     background-color: azure;
     height: 680px;
     width:580px;

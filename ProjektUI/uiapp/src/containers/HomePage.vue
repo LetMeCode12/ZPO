@@ -4,8 +4,8 @@
     <Box name="Budynki" color='azure' hovercolor='#42bcf5' onClick='/buildings'/>
     <Box name="Pacjęci" color='azure' hovercolor='#42bcf5' onClick='/patients'/>
     <Box name="Lekarze" color='azure' hovercolor='#42bcf5' onClick='/doctors'/>
-    <Box name="Dodaj konto" color='azure' hovercolor='#42bcf5'/>
-    <Box name="Profil" color='azure' hovercolor='#42bcf5'/>
+    <Box name="Dodaj konto" color='azure' hovercolor='#42bcf5' onClick='/adduser'/>
+    <Box name="Do rozbudowy" color='azure' hovercolor='#42bcf5'/>
     <Box name="Wyloguj" color='azure' hovercolor='#42bcf5' onClick='/'/>
 
 </div>

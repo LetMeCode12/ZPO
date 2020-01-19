@@ -41,4 +41,9 @@ public class DoctiorsRest  {
         doctorDao.save(doctorTmp);
     }
 
+
+    @DeleteMapping("/deleteDoctor/{doctorID}")
+    private void deleteDoctor(@PathVariable UUID doctorID){
+        doctorDao.delete(doctorDao.findAll().stream().parallel().filter(e->e.getId().equals(doctorID)).findFirst().orElse(null));
+    }
 }

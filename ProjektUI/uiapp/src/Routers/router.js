@@ -6,6 +6,7 @@ import NotFound from '../containers/NotFound.vue';
 import Buildings from '../containers/Buildings.vue';
 import Patients from '../containers/Patients.vue';
 import Doctors from '../containers/Doctors.vue';
+import AddUser from '../containers/AddUser.vue';
 import {checkAccess} from "../seciurity/sciurityUtils"
 Vue.use(VueRouter);
 
@@ -20,6 +21,8 @@ const router= new VueRouter({
         {path:'/patients',name:"Patients",component: Patients},
 
         {path:'/doctors',name:"Doctors",component: Doctors},
+
+        {path:'/adduser',name:"AddUser",component: AddUser},
         
         {path: '/404', component:NotFound},
 

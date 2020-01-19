@@ -4,12 +4,12 @@
         <div id="contentList">
             
             <div id="headers">
-             <a id="first"> # </a> <a> Imie </a> <a>Nazwisko</a> <a id="last"> Specializacja </a>
+             <a id="first"> # </a>  <a>Login</a> <a id="last"> Password </a>
             </div>
            
             <div id="row" v-for="(item,index) in data" v-bind:key="item">
-                <a>{{index}}</a> <a id="center">{{item.name}}</a> <a>{{item.surrname}}</a> <a>{{item.specialization}}</a>
-                 <img id="icons" @click="openModal(item.id)" src="../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.id)" src="../../icons/trash-icon.svg"/>
+                <a>{{index}}</a> <a id="center">{{item.login}}</a> <a>{{item.password}}</a> <a>{{item.specialization}}</a>
+                <img id="icons" @click="_delete(item.idUser)" src="../../icons/trash-icon.svg"/>
             </div>
         </div>
     <modals-container/>
@@ -43,7 +43,7 @@ export default {
        async _delete(id){
             checkAccess();
             window.console.log(id)
-            let payload = {patch:`http://localhost:8080/api/Doctors/deleteDoctor/${id}`}
+            let payload = {patch:`http://localhost:8080/Users/delUsr/${id}`}
             await this.$store.commit("deleteData",payload)
             await this.$store.commit("getData","http://localhost:8080/api/Buildings/getAll")
             await location.reload();

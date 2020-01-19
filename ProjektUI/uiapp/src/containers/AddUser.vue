@@ -11,19 +11,19 @@
 </template>
 
 <script>
-import List from "../components/list/listDoctors";
-import addDoctorsModal from '../components/modals/Doctors/addDoctorsModal';
+import List from "../components/list/UsersList";
+import addUserModal from '../components/modals/AddUser/addUserModal';
 import {checkAccess} from '../seciurity/sciurityUtils'
 export default {
     props:{
         name:{
-            default:"Lekrze"
+            default:"Użytkownicy"
         },
         type:{
-            default:"Dodaj Lekarza"
+            default:"Dodaj użytkownika"
         },
         path:{
-            default:"http://localhost:8080/api/Doctors/getDoctors"
+            default:"http://localhost:8080/Users/getUsr"
         }
     },
     components:{
@@ -51,7 +51,7 @@ export default {
         openModal(){
             window.console.log("Dziala")
             checkAccess();
-            this.$modal.show(addDoctorsModal,{draggable: true},{height: "450px"})
+            this.$modal.show(addUserModal,{draggable: true},{height: "400px"})
         }
     },
 }

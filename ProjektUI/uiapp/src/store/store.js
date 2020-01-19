@@ -20,7 +20,8 @@ const store = new Vuex.Store({
             modalData:"No data",
             getBranchId:"NoID",
             getRoomId:"NoID",
-            getBedId:"NoID"
+            getBedId:"NoID",
+            getPatient:""
         },
         mutations:{
             increment(state,payload){
@@ -59,6 +60,9 @@ const store = new Vuex.Store({
             },
             getBedId(state,payload){
                 state.getBedId=payload;
+            },
+            getPatient(state,payload){
+                state.getPatient=payload
             }
         },
         actions:{
@@ -94,6 +98,9 @@ const store = new Vuex.Store({
             },
             getBedId(state){
                 return state.getBedId;
+            },
+            getPatient(state){
+                return state.getPatient;
             }
         }
 })

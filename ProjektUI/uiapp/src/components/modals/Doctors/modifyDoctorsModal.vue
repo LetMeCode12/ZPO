@@ -1,7 +1,7 @@
 <template>
 <div id="Modal">
     <div id="content">
-    <div id="header"><h1>Patient</h1></div>
+    <div id="header"><h1>Doktor</h1></div>
     <div id="topcontent">
         <!-- <a>Adress :{{modalData}}</a> -->
     <br/>
@@ -9,33 +9,21 @@
     <br/>
     <a>Nazwisko :{{modalData.surrname}}</a>
     <br/>
-    <a>Pesel :{{modalData.pesel}}</a>
+    <a>Specializacja :{{modalData.specialization}}</a>
     <br/>
-    <a>Data urodzenia :{{new Date(modalData.birth).getDate()}}-{{new Date(modalData.birth).getMonth()+1}}-{{new Date(modalData.birth).getFullYear()}}r</a>
+    <a>Oddział :{{(branches[0]?branches.find(e=>e.id===modalData.branchID).branch_Name:"Nie przypisano")}}</a>
     <br/>
-    <a>Data rejestracji :{{new Date(modalData.dateOfAdmission).getDate()}}-{{new Date(modalData.dateOfAdmission).getMonth()+1}}-{{new Date(modalData.dateOfAdmission).getFullYear()}}r</a>
-    <br/>
-    <a>Ubezpieczenie :{{(modalData.insurance?"Tak":"Nie")}} <button id="Button" @click="change">Zmień</button> </a>
-    <br/>
-    <a>Zaległości :{{modalData.costs}} zł</a>
-    <br/>
-    <a>Posiada łóżko :{{(modalData.bedID?modalData.bedID:"Nie")}}</a>
-    <br/>
-    <a>Przypisany do lekarza :{{(modalData.doctorID?this.doctors.find(e=>e.id===modalData.doctorID).name:"Nie")}} {{(modalData.doctorID?this.doctors.find(e=>e.id===modalData.doctorID).surrname:"")}}</a>
-     <br/>
-    <input id="Input" placeholder="Dodaj zaległość" type="number" v-model="zaległość"/>
-     <br/>
-    <button id="Button" @click="setCost">Dodaj Zaległości</button>
-    <br/>
-    <select id="select" v-model="selectedDoctor">
-        <option>Brak</option>
-        <option v-for="item in doctors" v-bind:key="item" v-bind:value="item.id">{{item.name}} {{item.surrname}} {{item.specialization}}</option>
-    </select>
-    <br/>
-    <button id="Button" @click="findData">Dodaj Lekarza</button>
-
-
-
+       <div id="contentList">
+            
+            <div id="headers">
+              <a> Pesel </a> <a> Imie </a> <a> Nazwisko </a> <a id="last"> Opłaty </a>
+            </div>
+           
+            <div id="row" v-for="(item,index) in patients" v-bind:key="item">
+                <a>{{index}}</a> <a>{{item.pesel}}</a> <a>{{item.name}}</a> <a>{{item.surrname}}</a> <a>{{item.costs}} zł</a> <a>{{item.nr_Budynku}}</a>
+                 <img id="icons" @click="openModal(item.id)" src="../../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.id)" src="../../../icons/trash-icon.svg"/>
+            </div>
+        </div>
     </div> 
     
     
@@ -48,7 +36,7 @@
 </template>
 
 <script>
-import modifyBranchModal from "../Branches/modifyBranchModal";
+import modifyPatientsModal from "../Patients/modifyPatientsModal";
 import { checkAccess, getData} from '../../../seciurity/sciurityUtils';
 import addBranchModalVue from '../Branches/addBranchModal.vue';
 export default {
@@ -56,23 +44,25 @@ export default {
         return{
             modalData:"NoData",
             zaległość:0,
-            doctors:[],
+            patients:[],
             selectedDoctor:"",
-            patients:"",
+            branches:[]
         }
     },
     created: async function(){
-        let payload = `http://localhost:8080/api/Doctors/getDoctors`
-        let payload2 = `http://localhost:8080/api/Patients/getAll`
-        
-          // this.modalData=this.$store.getters.getData.find(e=>e.id===this.$store.getters.modalData);
-        this.doctors=await getData(payload)
-        this.patients=await getData(payload2)
-        this.modalData = this.patients.find(e=>e.id===this.$store.getters.modalData);
-        window.console.log("patients:",this.modalData)
-        window.console.log("doctorsy:",this.doctors)
+        let payload = `http://localhost:8080/api/Patients/getAll`
+                let payload2 = `http://localhost:8080/api/Buildings/getAllBranch`
+           this.modalData=this.$store.getters.getData.find(e=>e.id===this.$store.getters.modalData);
+        this.patients=await getData(payload)
+        this.branches=await getData(payload2)
+        this.patients=this.patients.filter(e=>e.doctorID===this.modalData.id)
+        window.console.log("Pacjenty:",this.patients)
+        window.console.log("Branchesy:",this.branches)
     },
     methods:{
+        showdata(){
+            window.console.log("dane:",this.modalData)
+        },
         async change (){
             window.console.log("XDDD",this.modalData);
             let payload = {type:"PUT",patch:`http://localhost:8080/api/Patients/updatePatient/${this.modalData.id}`,data:{costs:this.modalData.costs,doctorID:this.modalData.doctorID,insurance:!this.modalData.insurance}}
@@ -95,17 +85,18 @@ export default {
         hide(){
              this.$emit('close');
         },
-        async openModal(id){
+         async openModal(id){
           checkAccess();
-          await this.$store.commit("getBranchId",id)  
+          await this.$store.commit("setModalData",id) 
+          window.console.log("id :",id); 
           await window.console.log(this.$store.getters.modalData);
-          this.$modal.show(modifyBranchModal,{draggable: true},{height: "700px"})
+          this.$modal.show(modifyPatientsModal,{draggable: true},{height: "700px"})
 
         },
-        async _delete(id){
+       async _delete(id){
             checkAccess();
-            window.console.log("ID:",id)
-            let payload = {patch:`http://localhost:8080/api/Buildings/branchDelete/${id}`}
+            window.console.log(id)
+            let payload = {patch:`http://localhost:8080/api/Patients/deletePatient/${id}`}
             await this.$store.commit("deleteData",payload)
             await this.$store.commit("getData","http://localhost:8080/api/Buildings/getAll")
             await location.reload();
@@ -122,10 +113,17 @@ export default {
     background-image: none;
 }
 
-#headers #center{
-    padding-right: 160px;
+#headers #last{
+    padding-right: 90px;
     padding-left: 20px;
 }
+
+#headers a{
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 0px;
+}
+
 
 #topcontent {
     padding-top:10px;
@@ -153,7 +151,7 @@ export default {
 }
 
 #contentList{
-    height: 480px;
+    height: 380px;
     width: 500px;
     margin-left: auto;
     margin-right: auto;
@@ -172,6 +170,7 @@ h1{
 #row a{
     margin-left: auto;
     margin-right: auto;
+    padding: 0px;
 }
 
 #Modal{

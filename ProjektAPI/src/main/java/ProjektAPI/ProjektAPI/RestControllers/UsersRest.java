@@ -13,8 +13,12 @@ import java.util.UUID;
 @RestController
 public class UsersRest {
 
-    @Autowired
+
     UsersDao usersDao;
+
+    private UsersRest(UsersDao usersDao){
+        this.usersDao=usersDao;
+    }
 
     @PostMapping("/signIn")
     private void createUser(@RequestBody User user){

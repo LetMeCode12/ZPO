@@ -17,7 +17,7 @@ import {checkAccess} from '../seciurity/sciurityUtils'
 export default {
     props:{
         name:{
-            default:"Pacienci"
+            default:"Pacjenci"
         },
         type:{
             default:"Dodaj Pacienta"

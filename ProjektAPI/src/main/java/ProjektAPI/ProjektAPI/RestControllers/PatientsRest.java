@@ -18,14 +18,18 @@ import java.util.UUID;
 @RestController
 public class PatientsRest {
 
-    @Autowired
     PatientsDao patientsDao;
 
-    @Autowired
     BedDao bedDao;
 
-    @Autowired
     DoctorDao doctorDao;
+
+    @Autowired
+    private PatientsRest(PatientsDao patientsDao,BedDao bedDao,DoctorDao doctorDao){
+        this.patientsDao=patientsDao;
+        this.bedDao=bedDao;
+        this.doctorDao=doctorDao;
+    }
 
     @GetMapping("/getAll")
     private List<Patient> getAll (){

@@ -70,6 +70,10 @@ export default {
    background-image: none;
 }
 
+#contentList{
+    height: 625px;
+}
+
 #Input{
     margin-left: 1.7vw;
 }

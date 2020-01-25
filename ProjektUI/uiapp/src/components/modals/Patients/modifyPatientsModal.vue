@@ -19,23 +19,43 @@
     <br/>
     <a>Zaległości :{{modalData.costs}} zł</a>
     <br/>
-    <a>Posiada łóżko :{{(modalData.bedID?modalData.bedID:"Nie")}}</a>
+    <a>Posiada łóżko :{{(modalData.bedID?"Tak":"Nie")}}</a>
     <br/>
     <a>Przypisany do lekarza :{{(modalData.doctorID?this.doctors.find(e=>e.id===modalData.doctorID).name:"Nie")}} {{(modalData.doctorID?this.doctors.find(e=>e.id===modalData.doctorID).surrname:"")}}</a>
      <br/>
+         Dodawanie Zaległości :
+     
     <input id="Input" placeholder="Dodaj zaległość" type="number" v-model="zaległość"/>
-     <br/>
+    
     <button id="Button" @click="setCost">Dodaj Zaległości</button>
     <br/>
+    Dodawanie Lekarza :
     <select id="select" v-model="selectedDoctor">
         <option>Brak</option>
         <option v-for="item in doctors" v-bind:key="item" v-bind:value="item.id">{{item.name}} {{item.surrname}} {{item.specialization}}</option>
     </select>
+    <button id="Button" v-if="selectedDoctor" @click="findData">Dodaj Lekarza</button>
+       <br/>
+        Dodoawanie Łóżka :
+       <br/>
+    <select id="select" v-model="selectedBuilding">
+        <option v-for="item in buildings" v-bind:key="item" v-bind:value="item">Nr Budynku: {{item.nr_Budynku}}, Ulica: {{item.address}}</option>
+    </select>
     <br/>
-    <button id="Button" @click="findData">Dodaj Lekarza</button>
-
-
-
+    <select id="select" v-if="selectedBuilding" v-model="selectedBranch">
+        <option v-for="item in selectedBuilding.branches" v-bind:key="item" v-bind:value="item">Nr Oddziału: {{item.nr_Branch}}, Oddział: {{item.branch_Name}}</option>
+    </select>
+    <br/>
+    <select id="select" v-if="selectedBranch" v-model="selectedRoom">
+        <option v-for="item in selectedBranch.rooms" v-bind:key="item" v-bind:value="item">Nr Pokoju: {{item.nr_Room}}</option>
+    </select>
+    <br/>
+    <select id="select" v-if="selectedRoom" v-model="selectBed">
+        <option>Brak</option>
+        <option v-for="item in selectedRoom.beds" v-bind:key="item" v-bind:value="item.idBed">{{(!item.idPatient?`Nr Łóżka: ${item.nrBed}`:null)}}</option>
+    </select>
+    <br/>
+    <button id="Button" v-if="selectedRoom" @click="addBed">Dodaj Łóżko</button>
     </div> 
     
     
@@ -58,21 +78,35 @@ export default {
             zaległość:0,
             doctors:[],
             selectedDoctor:"",
+            selectedBuilding:"",
+            selectedBranch:"",
             patients:"",
+            buildings:[],
+            branches:[],
+            selectedRoom:"",
+            selectBed:""
         }
     },
     created: async function(){
         let payload = `http://localhost:8080/api/Doctors/getDoctors`
         let payload2 = `http://localhost:8080/api/Patients/getAll`
+        let payload3=  `http://localhost:8080/api/Buildings/getAll`
         
           // this.modalData=this.$store.getters.getData.find(e=>e.id===this.$store.getters.modalData);
         this.doctors=await getData(payload)
         this.patients=await getData(payload2)
+        this.buildings = await getData(payload3)
         this.modalData = this.patients.find(e=>e.id===this.$store.getters.modalData);
         window.console.log("patients:",this.modalData)
         window.console.log("doctorsy:",this.doctors)
+        window.console.log('Buildings',this.buildings);
     },
     methods:{
+        async addBed(){
+            window.console.log("lóżko:", this.selectBed)
+            let payload = {type:"PUT",patch:`http://localhost:8080/api/Patients/addPatientToBed/${this.modalData.id}/${this.selectBed}`}
+            await this.$store.commit("setData",payload)
+        },
         async change (){
             window.console.log("XDDD",this.modalData);
             let payload = {type:"PUT",patch:`http://localhost:8080/api/Patients/updatePatient/${this.modalData.id}`,data:{costs:this.modalData.costs,doctorID:this.modalData.doctorID,insurance:!this.modalData.insurance}}
@@ -93,6 +127,7 @@ export default {
             this.modalData.costs=this.zaległość
         },
         hide(){
+            window.console.log("XDD",this.selectedBuilding)
              this.$emit('close');
         },
         async openModal(id){

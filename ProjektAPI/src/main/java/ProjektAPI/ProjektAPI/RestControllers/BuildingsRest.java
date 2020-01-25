@@ -22,16 +22,21 @@ import java.util.stream.Collectors;
 @RequestMapping("api/Buildings")
 public class BuildingsRest {
 
-    @Autowired
     BuildingsDao buildingsDao;
-    @Autowired
+
     BranchDao branchDao;
 
-    @Autowired
     RoomDao roomDao;
 
-    @Autowired
     BedDao bedDao;
+
+    @Autowired
+    private BuildingsRest(BuildingsDao buildingsDao,BranchDao branchDao, RoomDao roomDao, BedDao bedDao){
+        this.buildingsDao = buildingsDao;
+        this.bedDao=bedDao;
+        this.branchDao=branchDao;
+        this.roomDao=roomDao;
+    }
 
 //    private List<Branch> getBranchByName(String Name){
 //        List<Branch> branches =  new ArrayList<>();

@@ -15,11 +15,16 @@ import java.util.UUID;
 @RestController
 public class DoctiorsRest  {
 
-    @Autowired
+
     DoctorDao doctorDao;
 
-    @Autowired
     PatientsDao patientsDao;
+
+    @Autowired
+    private DoctiorsRest(PatientsDao patientsDao,DoctorDao doctorDao){
+        this.doctorDao=doctorDao;
+        this.patientsDao=patientsDao;
+    }
 
 
     @GetMapping("/getDoctors")

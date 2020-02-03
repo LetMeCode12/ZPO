@@ -1,8 +1,6 @@
 package ProjektAPI.ProjektAPI.Entity;
 
 
-import ProjektAPI.ProjektAPI.Dao.BuildingsDao;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.ArrayList;

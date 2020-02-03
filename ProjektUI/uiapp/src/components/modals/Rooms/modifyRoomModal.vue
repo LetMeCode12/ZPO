@@ -8,7 +8,7 @@
     <br/>
     <a>Ilość łóżek :{{modalData.beds.length}}</a>
     <br/>
-    <a>Ilość łóżek wolnych :{{modalData.beds.map(e=>e.idPatient!==null).length}}</a>
+    <a>Ilość łóżek wolnych :{{modalData.beds.filter(e=>e.idPatient===null).length}}</a>
 
     </div>  
     

@@ -12,11 +12,9 @@ import ProjektAPI.ProjektAPI.Entity.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/Buildings")
@@ -38,16 +36,6 @@ public class BuildingsRest {
         this.roomDao=roomDao;
     }
 
-//    private List<Branch> getBranchByName(String Name){
-//        List<Branch> branches =  new ArrayList<>();
-//        branches.add(branchDao.findAll().stream().parallel().filter(e->e.getBranch_Name().equals(Name)).findFirst().orElse(null));
-//        return branches;
-//
-//    };
-//
-//    private Building getBuildingByAdress(String Addres){
-//        return buildingsDao.findAll().stream().filter(e->e.getAddress().equals(Addres)).findFirst().orElse(null);
-//    }
 
     @PostMapping("/addBuilding")
     private void addBuilding(@RequestBody Building building ){
@@ -59,7 +47,6 @@ public class BuildingsRest {
         Building bd = buildingsDao.findAll().stream().parallel().filter(e->e.getId().equals(id)).findFirst().orElse(null);
         Branch new_branch = new Branch(branch.getNr_Branch(),branch.getBranch_Name(),branch.getBuildingID());
         branchDao.save(new_branch);
-        //Branch br = branchDao.findAll().stream().parallel().filter(e->e.getId().equals(branch.getId())).findFirst().orElse(null);
         bd.getBranches().add(new_branch);
         buildingsDao.save(bd);
     }
@@ -84,17 +71,6 @@ public class BuildingsRest {
         rm.getBeds().add(_bed);
         roomDao.save(rm);
     }
-
-
-//    @PutMapping("/addBranchtoBld/{buildingName}/{nameBranch}")
-//    private void addBranchToBld(@PathVariable String buildingName,@PathVariable String nameBranch){
-//
-//       Building bd = buildingsDao.findAll().stream().parallel().filter(e->e.getAddress().equals(buildingName)).findFirst().orElse(null);
-//       bd.getBranches().add(branchDao.findAll().stream().parallel().filter(e->e.getBranch_Name().equals(nameBranch)).findFirst().orElse(null));
-//      // buildingsDao.delete(buildingsDao.findAll().stream().filter(e->e.getAddress().equals(buildingName)).findFirst().orElse(null));
-//       buildingsDao.save(bd);
-//
-//    }
 
     @GetMapping("/getAll")
     private List<Building> getAllBuilding(){
@@ -121,7 +97,6 @@ public class BuildingsRest {
     @PutMapping("/updateBranch/{name}")
     private void updateBranch (@PathVariable String name,@RequestBody Branch branch){
         Branch br = branchDao.findAll().stream().parallel().filter(e->e.getBranch_Name().equals(name)).findFirst().orElse(null);
-       // br.setBeds_amount(branch.getBeds_amount());
         branchDao.save(br);
     }
 
@@ -146,13 +121,10 @@ public class BuildingsRest {
 
     @DeleteMapping("/roomDelete/{idRoom}")
     private void deleteRoom (@PathVariable UUID idRoom){
-       // System.out.println("TU:"+ branchDao.findAll().stream().parallel().filter(e->e.getId().equals(idBranch)).findFirst().orElse(null).getId());
         try {
             Room room = roomDao.findAll().stream().parallel().filter(r->r.getId().equals(idRoom)).findFirst().orElse(null);
 
             Branch branch = branchDao.findAll().stream().parallel().filter(e -> e.getId().equals(room.getBranchID())).findFirst().orElse(null);
-
-            //Building building = buildingsDao.findAll().stream().parallel().filter(a->a.getId().equals(branch.getBuildingID())).findFirst().orElse(null);
 
             branch.getRooms().remove(room);
 
@@ -166,13 +138,10 @@ public class BuildingsRest {
 
     @DeleteMapping("/bedDelete/{bedID}")
     private void deleteBed (@PathVariable UUID bedID){
-        // System.out.println("TU:"+ branchDao.findAll().stream().parallel().filter(e->e.getId().equals(idBranch)).findFirst().orElse(null).getId());
         try {
             Bed bed = bedDao.findAll().stream().parallel().filter(r->r.getIdBed().equals(bedID)).findFirst().orElse(null);
 
             Room room = roomDao.findAll().stream().parallel().filter(e -> e.getId().equals(bed.getRoomID())).findFirst().orElse(null);
-
-            //Building building = buildingsDao.findAll().stream().parallel().filter(a->a.getId().equals(branch.getBuildingID())).findFirst().orElse(null);
 
             room.getBeds().remove(bed);
 

@@ -20,9 +20,6 @@ public class Room {
 
     private UUID BranchID;
 
-//    @Column(name = "Free_Beds")
-//    private Integer free_Beds;
-
     @OneToMany
     private List<Bed> Beds;
 
@@ -67,19 +64,4 @@ public class Room {
     public void setBeds(List<Bed> beds) {
         Beds = beds;
     }
-    //    public Integer getFree_Beds() {
-//        return free_Beds;
-//    }
-//
-//    public void setFree_Beds(Integer free_Beds) {
-//        this.free_Beds = free_Beds;
-//    }
-
-//    public Integer getBeds() {
-//        return Beds;
-//    }
-//
-//    public void setBeds(Integer beds) {
-//        this.Beds = beds;
-//    }
 }

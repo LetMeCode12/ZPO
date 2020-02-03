@@ -67,10 +67,9 @@ public class PatientsRest {
 
                 _patient.setCosts(patient.getCosts());
 
-           // if(patient.getDoctorID()!=null) {
             _patient.setDoctorID(patient.getDoctorID());
             _patient.setInsurance(patient.isInsurance());
-          //  }
+
 
             System.out.println("Pacjent:"+_patient.getDoctorID());
             patientsDao.save(_patient);

@@ -13,7 +13,7 @@
              <a id="first"> # </a> <a> Nr Pokoju </a> <a> Łóżka </a> <a id="last"> Wolne </a> 
         </div>
     <div id="row" v-for="(item,index) in modalData.rooms" v-bind:key="item">
-        <a>{{index}}</a> <a>{{item.nr_Room}}</a> <a>{{item.beds.length}}</a> <a>{{item.beds.map(e=>e.idPatient!==null).length}}</a> <img id="icons" @click="openModal(item.id)" src="../../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.id)" src="../../../icons/trash-icon.svg"/>
+        <a>{{index}}</a> <a>{{item.nr_Room}}</a> <a>{{item.beds.length}}</a> <a>{{item.beds.filter(e=>e.idPatient===null).length}}</a> <img id="icons" @click="openModal(item.id)" src="../../../icons/info-icon.svg"/> <img id="icons" @click="_delete(item.id)" src="../../../icons/trash-icon.svg"/>
     </div>
     </div>
      <div id="footer">
